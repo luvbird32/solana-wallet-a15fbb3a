@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/card';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface Token {
   symbol: string;
@@ -43,26 +44,33 @@ const TokenList = () => {
   return (
     <div className="space-y-4">
       {tokens.map((token, index) => (
-        <Card key={token.symbol} className="token-card group p-6">
+        <Card key={token.symbol} className="token-card group p-8 hover:scale-[1.01] transition-all duration-300">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-5">
-              <div className="w-14 h-14 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-sm">
+            <div className="flex items-center space-x-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:shadow-xl transition-all duration-300">
                 {token.icon}
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 text-xl">{token.symbol}</h3>
-                <p className="text-gray-600 text-sm font-medium">{token.name}</p>
+                <h3 className="font-bold text-slate-900 text-2xl">{token.symbol}</h3>
+                <p className="text-slate-500 text-base font-medium">{token.name}</p>
               </div>
             </div>
             
             <div className="text-right">
-              <p className="font-bold text-gray-900 text-xl">{token.balance.toFixed(2)}</p>
-              <p className="text-gray-600 text-sm font-medium">${token.usdValue.toFixed(2)}</p>
-              <p className={`text-sm font-bold mt-1 ${
+              <p className="font-bold text-slate-900 text-2xl">{token.balance.toFixed(2)}</p>
+              <p className="text-slate-500 text-base font-medium">${token.usdValue.toFixed(2)}</p>
+              <div className={`flex items-center justify-end space-x-1 mt-2 ${
                 token.change24h >= 0 ? 'text-green-600' : 'text-red-500'
               }`}>
-                {token.change24h >= 0 ? '+' : ''}{token.change24h.toFixed(2)}%
-              </p>
+                {token.change24h >= 0 ? (
+                  <TrendingUp className="w-4 h-4" />
+                ) : (
+                  <TrendingDown className="w-4 h-4" />
+                )}
+                <span className="text-base font-bold">
+                  {token.change24h >= 0 ? '+' : ''}{token.change24h.toFixed(2)}%
+                </span>
+              </div>
             </div>
           </div>
         </Card>

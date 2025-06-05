@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/card';
+import { ExternalLink } from 'lucide-react';
 
 interface NFT {
   id: string;
@@ -44,24 +45,31 @@ const NFTGallery = () => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       {nfts.map((nft) => (
-        <Card key={nft.id} className="nft-card group p-4">
-          <div className="aspect-square rounded-lg overflow-hidden mb-4 border border-gray-200">
+        <Card key={nft.id} className="nft-card group p-6 hover:scale-[1.02] transition-all duration-300">
+          <div className="aspect-square rounded-2xl overflow-hidden mb-6 border-2 border-slate-100 shadow-md group-hover:shadow-xl transition-all duration-300">
             <img
               src={nft.image}
               alt={nft.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           </div>
-          <div className="space-y-2">
-            <h3 className="font-bold text-gray-900 text-sm truncate">{nft.name}</h3>
-            <p className="text-gray-600 text-xs truncate font-medium">{nft.collection}</p>
-            {nft.floorPrice && (
-              <p className="text-blue-600 text-xs font-bold">
-                Floor: {nft.floorPrice} SOL
-              </p>
-            )}
+          <div className="space-y-3">
+            <h3 className="font-bold text-slate-900 text-lg truncate">{nft.name}</h3>
+            <p className="text-slate-500 text-sm truncate font-medium">{nft.collection}</p>
+            <div className="flex items-center justify-between">
+              {nft.floorPrice && (
+                <div className="bg-blue-50 px-3 py-2 rounded-lg">
+                  <p className="text-blue-600 text-sm font-bold">
+                    {nft.floorPrice} SOL
+                  </p>
+                </div>
+              )}
+              <button className="p-2 text-slate-400 hover:text-blue-600 transition-colors duration-200">
+                <ExternalLink className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </Card>
       ))}

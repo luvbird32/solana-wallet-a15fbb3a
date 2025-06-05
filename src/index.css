@@ -20,7 +20,7 @@
     --secondary: 148 163 184;
     --secondary-foreground: 15 23 42;
 
-    --muted: 241 245 249;
+    --muted: 248 250 252;
     --muted-foreground: 100 116 139;
 
     --accent: 59 130 246;
@@ -33,13 +33,13 @@
     --input: 226 232 240;
     --ring: 59 130 246;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 255 255 255;
     --sidebar-foreground: 15 23 42;
     --sidebar-primary: 59 130 246;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 241 245 249;
+    --sidebar-accent: 248 250 252;
     --sidebar-accent-foreground: 15 23 42;
     --sidebar-border: 226 232 240;
     --sidebar-ring: 59 130 246;
@@ -52,29 +52,37 @@
   }
 
   body {
-    @apply bg-white text-foreground min-h-screen;
+    @apply bg-gradient-to-br from-slate-50 via-white to-blue-50 text-foreground min-h-screen;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 }
 
 @layer components {
   .wallet-button {
-    @apply bg-blue-500 hover:bg-blue-600 text-white;
+    @apply bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-medium;
   }
   
   .secondary-button {
-    @apply bg-blue-500 hover:bg-blue-600 text-white;
+    @apply bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-medium;
   }
   
   .balance-text {
-    @apply text-4xl font-bold text-blue-600;
+    @apply text-5xl font-bold text-slate-800 tracking-tight;
   }
 
   .token-card {
-    @apply bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 cursor-pointer rounded-lg;
+    @apply bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
   }
 
   .nft-card {
-    @apply bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 cursor-pointer rounded-lg;
+    @apply bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-sm bg-white/80 border border-white/20;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
   }
 }
