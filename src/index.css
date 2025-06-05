@@ -78,10 +78,6 @@
     @apply bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
   }
 
-  .glass-effect {
-    @apply backdrop-blur-sm bg-white/80 border border-white/20;
-  }
-
   .gradient-text {
     @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
   }

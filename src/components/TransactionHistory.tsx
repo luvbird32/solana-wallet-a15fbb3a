@@ -68,44 +68,44 @@ const TransactionHistory = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'text-emerald-400';
-      case 'pending': return 'text-yellow-400';
-      case 'failed': return 'text-red-400';
-      default: return 'text-gray-400';
+      case 'confirmed': return 'text-green-600';
+      case 'pending': return 'text-yellow-600';
+      case 'failed': return 'text-red-600';
+      default: return 'text-slate-500';
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'send': return <ArrowUp className="w-4 h-4 text-red-400" />;
-      case 'receive': return <ArrowDown className="w-4 h-4 text-emerald-400" />;
-      case 'swap': return <div className="w-4 h-4 bg-cyan-400 rounded-full" />;
+      case 'send': return <ArrowUp className="w-4 h-4 text-red-500" />;
+      case 'receive': return <ArrowDown className="w-4 h-4 text-green-500" />;
+      case 'swap': return <div className="w-4 h-4 bg-blue-500 rounded-full" />;
       default: return null;
     }
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {transactions.map((tx) => (
-        <Card key={tx.id} className="glass-card p-4 hover:bg-white/15 transition-all duration-200 cursor-pointer">
+        <Card key={tx.id} className="p-6 hover:shadow-lg transition-all duration-200 cursor-pointer border border-slate-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
                 {getTypeIcon(tx.type)}
               </div>
               <div>
-                <h3 className="font-semibold text-white capitalize">{tx.type}</h3>
-                <p className="text-gray-400 text-sm">
+                <h3 className="font-semibold text-slate-900 capitalize text-lg">{tx.type}</h3>
+                <p className="text-slate-500 text-sm">
                   {tx.type === 'swap' ? tx.toFrom : `${tx.type === 'send' ? 'To' : 'From'} ${tx.toFrom}`}
                 </p>
               </div>
             </div>
             
             <div className="text-right">
-              <p className="font-semibold text-white">
+              <p className="font-semibold text-slate-900 text-lg">
                 {tx.type === 'send' ? '-' : '+'}{tx.amount} {tx.token}
               </p>
-              <p className="text-gray-400 text-sm">{formatTime(tx.timestamp)}</p>
+              <p className="text-slate-500 text-sm">{formatTime(tx.timestamp)}</p>
               <p className={`text-sm font-medium capitalize ${getStatusColor(tx.status)}`}>
                 {tx.status}
               </p>

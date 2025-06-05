@@ -32,57 +32,57 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="glass-card p-6 w-full max-w-md animate-fade-in">
+      <Card className="bg-white p-8 w-full max-w-md animate-fade-in shadow-2xl rounded-2xl">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-crypto-gradient rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
               {mode === 'send' ? (
-                <ArrowUp className="w-5 h-5 text-white" />
+                <ArrowUp className="w-6 h-6 text-white" />
               ) : (
-                <ArrowDown className="w-5 h-5 text-white" />
+                <ArrowDown className="w-6 h-6 text-white" />
               )}
             </div>
-            <h2 className="text-xl font-bold text-white capitalize">{mode} Crypto</h2>
+            <h2 className="text-2xl font-bold text-slate-900 capitalize">{mode} Crypto</h2>
           </div>
           <Button
             onClick={onClose}
             variant="ghost"
-            className="text-gray-400 hover:text-white"
+            className="text-slate-400 hover:text-slate-600 text-xl"
           >
             ✕
           </Button>
         </div>
 
         {mode === 'send' ? (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Recipient Address
               </label>
               <Input
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
                 placeholder="Enter wallet address"
-                className="bg-white/10 border-white/20 text-white placeholder-gray-400"
+                className="py-3 rounded-xl"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Amount
               </label>
-              <div className="flex space-x-2">
+              <div className="flex space-x-3">
                 <Input
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   type="number"
-                  className="bg-white/10 border-white/20 text-white placeholder-gray-400"
+                  className="py-3 rounded-xl"
                 />
                 <select
                   value={selectedToken}
                   onChange={(e) => setSelectedToken(e.target.value)}
-                  className="bg-white/10 border border-white/20 rounded-md px-3 py-2 text-white"
+                  className="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 font-medium"
                 >
                   <option value="SOL">SOL</option>
                   <option value="USDC">USDC</option>
@@ -93,7 +93,7 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
 
             <Button
               onClick={handleSend}
-              className="w-full crypto-button text-white font-semibold py-3 rounded-xl"
+              className="w-full wallet-button py-4 text-lg rounded-xl"
               disabled={!amount || !recipient}
             >
               Send {selectedToken}
@@ -102,30 +102,30 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
         ) : (
           <div className="space-y-6">
             <div className="text-center">
-              <div className="w-48 h-48 bg-white rounded-lg mx-auto mb-4 flex items-center justify-center">
-                <QrCode className="w-32 h-32 text-gray-800" />
+              <div className="w-48 h-48 bg-slate-100 rounded-2xl mx-auto mb-4 flex items-center justify-center border-2 border-slate-200">
+                <QrCode className="w-32 h-32 text-slate-400" />
               </div>
-              <p className="text-gray-300 text-sm mb-4">
+              <p className="text-slate-600 text-lg mb-4">
                 Scan this QR code or copy the address below
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Your Wallet Address
               </label>
-              <div className="flex space-x-2">
+              <div className="flex space-x-3">
                 <Input
                   value={walletAddress}
                   readOnly
-                  className="bg-white/10 border-white/20 text-white text-sm"
+                  className="bg-slate-50 py-3 rounded-xl text-slate-700 font-mono text-sm"
                 />
                 <Button
                   onClick={handleCopyAddress}
                   variant="outline"
-                  className="border-white/20 text-white hover:bg-white/10"
+                  className="px-4 py-3 rounded-xl"
                 >
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-5 h-5" />
                 </Button>
               </div>
             </div>
