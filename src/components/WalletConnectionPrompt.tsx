@@ -8,7 +8,7 @@ interface WalletConnectionPromptProps {
   onShowWalletManagement: () => void;
 }
 
-const WalletConnectionPrompt = ({ onShowWalletManagement }: WalletConnectionPromptProps) => {
+const WalletConnectionPrompt: React.FC<WalletConnectionPromptProps> = ({ onShowWalletManagement }) => {
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <Card className="p-20 bg-white/95 backdrop-blur-xl border-0 shadow-2xl rounded-3xl text-center max-w-3xl transform hover:scale-[1.02] transition-all duration-500">
@@ -71,5 +71,7 @@ const WalletConnectionPrompt = ({ onShowWalletManagement }: WalletConnectionProm
     </div>
   );
 };
+
+WalletConnectionPrompt.displayName = 'WalletConnectionPrompt';
 
 export default WalletConnectionPrompt;

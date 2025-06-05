@@ -26,6 +26,15 @@ const ComponentSkeleton = () => (
   </div>
 );
 
+// Error boundary component for lazy loading
+const LazyErrorBoundary = ({ children, fallback }: { children: React.ReactNode; fallback: React.ReactNode }) => {
+  return (
+    <Suspense fallback={<ComponentSkeleton />}>
+      {children}
+    </Suspense>
+  );
+};
+
 const WalletDashboard = () => {
   const { connected } = useWallet();
   const [activeTab, setActiveTab] = useState('tokens');
@@ -53,9 +62,9 @@ const WalletDashboard = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
-          <Suspense fallback={<ComponentSkeleton />}>
+          <LazyErrorBoundary fallback={<ComponentSkeleton />}>
             <WalletManagement onBack={() => setShowWalletManagement(false)} />
-          </Suspense>
+          </LazyErrorBoundary>
         </div>
       </div>
     );
@@ -69,11 +78,11 @@ const WalletDashboard = () => {
         />
 
         {!connected ? (
-          <Suspense fallback={<ComponentSkeleton />}>
+          <LazyErrorBoundary fallback={<ComponentSkeleton />}>
             <WalletConnectionPrompt
               onShowWalletManagement={() => setShowWalletManagement(true)}
             />
-          </Suspense>
+          </LazyErrorBoundary>
         ) : (
           <>
             <WalletBalance
@@ -91,30 +100,30 @@ const WalletDashboard = () => {
             />
 
             <div className="animate-fade-in">
-              <Suspense fallback={<ComponentSkeleton />}>
+              <LazyErrorBoundary fallback={<ComponentSkeleton />}>
                 {activeTab === 'tokens' && <TokenList />}
                 {activeTab === 'nfts' && <NFTGallery />}
                 {activeTab === 'history' && <TransactionHistory />}
-              </Suspense>
+              </LazyErrorBoundary>
             </div>
           </>
         )}
 
         {/* Modals with lazy loading */}
         {showSendReceive && (
-          <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
+          <LazyErrorBoundary fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
             <SendReceiveModal
               mode={sendReceiveMode}
               isOpen={showSendReceive}
               onClose={() => setShowSendReceive(false)}
             />
-          </Suspense>
+          </LazyErrorBoundary>
         )}
         
         {showSwap && (
-          <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
+          <LazyErrorBoundary fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
             <SwapInterface onClose={() => setShowSwap(false)} />
-          </Suspense>
+          </LazyErrorBoundary>
         )}
       </div>
     </div>
