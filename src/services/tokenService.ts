@@ -31,27 +31,79 @@ const TOKENS_BY_NAME: { [key: string]: TokenInfo } = {
   'wsol': MOCK_TOKENS['So11111111111111111111111111111111111111112']
 };
 
+// In-memory cache for token data
+const tokenCache = new Map<string, { data: TokenInfo | null; timestamp: number }>();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+const getCachedToken = (key: string): TokenInfo | null => {
+  const cached = tokenCache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return cached.data;
+  }
+  return null;
+};
+
+const setCachedToken = (key: string, data: TokenInfo | null): void => {
+  tokenCache.set(key, { data, timestamp: Date.now() });
+};
+
 export const searchTokenByAddress = async (address: string): Promise<TokenInfo | null> => {
+  // Check cache first
+  const cached = getCachedToken(`address:${address}`);
+  if (cached !== null) {
+    console.log('Token found in cache:', cached);
+    return cached;
+  }
+
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
   
   const token = MOCK_TOKENS[address];
-  if (token) {
-    return token;
-  }
+  let result: TokenInfo | null;
   
-  // Return unknown token structure for unrecognized addresses
-  return {
-    address: address,
-    symbol: 'UNKNOWN',
-    name: 'Unknown Token',
-    decimals: 9
-  };
+  if (token) {
+    result = token;
+  } else {
+    // Return unknown token structure for unrecognized addresses
+    result = {
+      address: address,
+      symbol: 'UNKNOWN',
+      name: 'Unknown Token',
+      decimals: 9
+    };
+  }
+
+  // Cache the result
+  setCachedToken(`address:${address}`, result);
+  console.log('Token cached for address:', address);
+  
+  return result;
 };
 
 export const searchTokenByName = async (name: string): Promise<TokenInfo | null> => {
+  const cacheKey = `name:${name.toLowerCase()}`;
+  
+  // Check cache first
+  const cached = getCachedToken(cacheKey);
+  if (cached !== null) {
+    console.log('Token found in cache:', cached);
+    return cached;
+  }
+
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  return TOKENS_BY_NAME[name.toLowerCase()] || null;
+  const result = TOKENS_BY_NAME[name.toLowerCase()] || null;
+  
+  // Cache the result
+  setCachedToken(cacheKey, result);
+  console.log('Token cached for name:', name);
+  
+  return result;
+};
+
+// Clear cache function for manual cache invalidation
+export const clearTokenCache = (): void => {
+  tokenCache.clear();
+  console.log('Token cache cleared');
 };

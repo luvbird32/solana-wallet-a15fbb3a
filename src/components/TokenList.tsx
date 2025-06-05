@@ -1,8 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, Plus } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import ImportToken from './ImportToken';
 
 interface Token {
@@ -15,12 +16,10 @@ interface Token {
   address?: string;
 }
 
-const TokenList = () => {
-  const [showImport, setShowImport] = useState(false);
-  const [importedTokens, setImportedTokens] = useState<any[]>([]);
-
-  // Mock token data - in real app this would come from Solana token accounts
-  const defaultTokens: Token[] = [
+// Mock function to simulate fetching token balances
+const fetchTokenBalances = async (): Promise<Token[]> => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  return [
     {
       symbol: 'SOL',
       name: 'Solana',
@@ -46,6 +45,19 @@ const TokenList = () => {
       icon: '⚡'
     }
   ];
+};
+
+const TokenList = () => {
+  const [showImport, setShowImport] = useState(false);
+  const [importedTokens, setImportedTokens] = useState<any[]>([]);
+
+  // Use React Query for caching token data
+  const { data: defaultTokens = [], isLoading } = useQuery({
+    queryKey: ['token-balances'],
+    queryFn: fetchTokenBalances,
+    staleTime: 30 * 1000, // Data is fresh for 30 seconds
+    cacheTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
+  });
 
   useEffect(() => {
     loadImportedTokens();
@@ -61,7 +73,8 @@ const TokenList = () => {
     setShowImport(false);
   };
 
-  const allTokens = [
+  // Memoize the combined tokens list to avoid unnecessary recalculations
+  const allTokens = useMemo(() => [
     ...defaultTokens,
     ...importedTokens.map(token => ({
       symbol: token.symbol,
@@ -72,7 +85,7 @@ const TokenList = () => {
       icon: token.symbol.charAt(0),
       address: token.address
     }))
-  ];
+  ], [defaultTokens, importedTokens]);
 
   if (showImport) {
     return (
@@ -80,6 +93,34 @@ const TokenList = () => {
         onBack={() => setShowImport(false)}
         onTokenImported={handleTokenImported}
       />
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-slate-900">Your Tokens</h3>
+          <Button variant="outline" disabled>Loading...</Button>
+        </div>
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="p-8 animate-pulse">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-6">
+                <div className="w-16 h-16 bg-slate-200 rounded-2xl"></div>
+                <div className="space-y-2">
+                  <div className="h-6 w-16 bg-slate-200 rounded"></div>
+                  <div className="h-4 w-24 bg-slate-200 rounded"></div>
+                </div>
+              </div>
+              <div className="text-right space-y-2">
+                <div className="h-6 w-20 bg-slate-200 rounded"></div>
+                <div className="h-4 w-16 bg-slate-200 rounded"></div>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     );
   }
 

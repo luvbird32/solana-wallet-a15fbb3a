@@ -1,16 +1,30 @@
 
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { useWallet } from '@/hooks/useWallet';
 import WalletHeader from './WalletHeader';
 import WalletConnectionPrompt from './WalletConnectionPrompt';
 import WalletBalance from './WalletBalance';
 import WalletTabs from './WalletTabs';
-import TokenList from './TokenList';
-import NFTGallery from './NFTGallery';
-import TransactionHistory from './TransactionHistory';
-import SendReceiveModal from './SendReceiveModal';
-import SwapInterface from './SwapInterface';
-import WalletManagement from './WalletManagement';
+import { Skeleton } from '@/components/ui/skeleton';
+
+// Lazy load heavy components
+const TokenList = lazy(() => import('./TokenList'));
+const NFTGallery = lazy(() => import('./NFTGallery'));
+const TransactionHistory = lazy(() => import('./TransactionHistory'));
+const SendReceiveModal = lazy(() => import('./SendReceiveModal'));
+const SwapInterface = lazy(() => import('./SwapInterface'));
+const WalletManagement = lazy(() => import('./WalletManagement'));
+
+const ComponentSkeleton = () => (
+  <div className="space-y-4">
+    <Skeleton className="h-8 w-48" />
+    <div className="grid gap-4">
+      <Skeleton className="h-24 w-full" />
+      <Skeleton className="h-24 w-full" />
+      <Skeleton className="h-24 w-full" />
+    </div>
+  </div>
+);
 
 const WalletDashboard = () => {
   const { connected } = useWallet();
@@ -39,7 +53,9 @@ const WalletDashboard = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
-          <WalletManagement onBack={() => setShowWalletManagement(false)} />
+          <Suspense fallback={<ComponentSkeleton />}>
+            <WalletManagement onBack={() => setShowWalletManagement(false)} />
+          </Suspense>
         </div>
       </div>
     );
@@ -73,23 +89,29 @@ const WalletDashboard = () => {
             />
 
             <div className="animate-fade-in">
-              {activeTab === 'tokens' && <TokenList />}
-              {activeTab === 'nfts' && <NFTGallery />}
-              {activeTab === 'history' && <TransactionHistory />}
+              <Suspense fallback={<ComponentSkeleton />}>
+                {activeTab === 'tokens' && <TokenList />}
+                {activeTab === 'nfts' && <NFTGallery />}
+                {activeTab === 'history' && <TransactionHistory />}
+              </Suspense>
             </div>
           </>
         )}
 
-        {/* Modals */}
+        {/* Modals with lazy loading */}
         {showSendReceive && (
-          <SendReceiveModal
-            mode={sendReceiveMode}
-            onClose={() => setShowSendReceive(false)}
-          />
+          <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
+            <SendReceiveModal
+              mode={sendReceiveMode}
+              onClose={() => setShowSendReceive(false)}
+            />
+          </Suspense>
         )}
         
         {showSwap && (
-          <SwapInterface onClose={() => setShowSwap(false)} />
+          <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
+            <SwapInterface onClose={() => setShowSwap(false)} />
+          </Suspense>
         )}
       </div>
     </div>
