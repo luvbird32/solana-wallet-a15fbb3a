@@ -5,14 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Search } from 'lucide-react';
-
-interface TokenInfo {
-  address: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-  logoURI?: string;
-}
+import { TokenInfo } from '@/types/token';
+import { searchTokenByAddress, searchTokenByName } from '@/services/tokenService';
 
 interface TokenSearchFormProps {
   onTokenFound: (token: TokenInfo | null) => void;
@@ -25,84 +19,6 @@ const TokenSearchForm = ({ onTokenFound, loading, error }: TokenSearchFormProps)
   const [tokenName, setTokenName] = useState('');
   const [searchType, setSearchType] = useState<'address' | 'name'>('address');
 
-  const searchTokenByAddress = async (address: string) => {
-    const mockTokens: { [key: string]: TokenInfo } = {
-      'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v': {
-        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-        symbol: 'USDC',
-        name: 'USD Coin',
-        decimals: 6
-      },
-      '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R': {
-        address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
-        symbol: 'RAY',
-        name: 'Raydium',
-        decimals: 6
-      },
-      'So11111111111111111111111111111111111111112': {
-        address: 'So11111111111111111111111111111111111111112',
-        symbol: 'SOL',
-        name: 'Wrapped SOL',
-        decimals: 9
-      }
-    };
-
-    const token = mockTokens[address];
-    if (token) {
-      return token;
-    } else {
-      return {
-        address: address,
-        symbol: 'UNKNOWN',
-        name: 'Unknown Token',
-        decimals: 9
-      };
-    }
-  };
-
-  const searchTokenByName = async (name: string) => {
-    const tokensByName: { [key: string]: TokenInfo } = {
-      'usd coin': {
-        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-        symbol: 'USDC',
-        name: 'USD Coin',
-        decimals: 6
-      },
-      'usdc': {
-        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-        symbol: 'USDC',
-        name: 'USD Coin',
-        decimals: 6
-      },
-      'raydium': {
-        address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
-        symbol: 'RAY',
-        name: 'Raydium',
-        decimals: 6
-      },
-      'ray': {
-        address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
-        symbol: 'RAY',
-        name: 'Raydium',
-        decimals: 6
-      },
-      'wrapped sol': {
-        address: 'So11111111111111111111111111111111111111112',
-        symbol: 'SOL',
-        name: 'Wrapped SOL',
-        decimals: 9
-      },
-      'wsol': {
-        address: 'So11111111111111111111111111111111111111112',
-        symbol: 'SOL',
-        name: 'Wrapped SOL',
-        decimals: 9
-      }
-    };
-
-    return tokensByName[name.toLowerCase()];
-  };
-
   const handleSearch = async () => {
     const searchValue = searchType === 'address' ? tokenAddress : tokenName;
     
@@ -111,8 +27,6 @@ const TokenSearchForm = ({ onTokenFound, loading, error }: TokenSearchFormProps)
     }
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
       let token;
       if (searchType === 'address') {
         token = await searchTokenByAddress(searchValue);

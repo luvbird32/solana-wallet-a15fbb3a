@@ -2,15 +2,7 @@
 import { Keypair } from '@solana/web3.js';
 import * as bip39 from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
-
-export interface WalletAccount {
-  id: string;
-  name: string;
-  publicKey: string;
-  privateKey: string;
-  seedPhrase?: string;
-  createdAt: number;
-}
+import { WalletAccount } from '@/types/wallet';
 
 export const generateSeedPhrase = (): string => {
   return bip39.generateMnemonic();

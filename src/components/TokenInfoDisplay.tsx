@@ -3,14 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-
-interface TokenInfo {
-  address: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-  logoURI?: string;
-}
+import { TokenInfo } from '@/types/token';
 
 interface TokenInfoDisplayProps {
   tokenInfo: TokenInfo;

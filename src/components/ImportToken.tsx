@@ -7,18 +7,11 @@ import TokenSearchForm from './TokenSearchForm';
 import TokenInfoDisplay from './TokenInfoDisplay';
 import TokenImportGuide from './TokenImportGuide';
 import { saveTokenToStorage } from '@/utils/tokenUtils';
+import { TokenInfo } from '@/types/token';
 
 interface ImportTokenProps {
   onBack: () => void;
   onTokenImported: (token: any) => void;
-}
-
-interface TokenInfo {
-  address: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-  logoURI?: string;
 }
 
 const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {

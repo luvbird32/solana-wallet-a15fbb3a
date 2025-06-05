@@ -1,11 +1,5 @@
 
-interface TokenInfo {
-  address: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-  logoURI?: string;
-}
+import { TokenInfo } from '@/types/token';
 
 export const saveTokenToStorage = (token: TokenInfo): boolean => {
   const existingTokens = getImportedTokens();

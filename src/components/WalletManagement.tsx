@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, Import, Wallet, Trash2, Copy, ArrowLeft } from 'lucide-react';
-import { getWalletsFromStorage, removeWalletFromStorage, formatAddress, WalletAccount } from '@/utils/walletUtils';
+import { getWalletsFromStorage, removeWalletFromStorage, formatAddress } from '@/utils/walletUtils';
+import { WalletAccount } from '@/types/wallet';
 import { useToast } from '@/hooks/use-toast';
 import CreateWallet from './CreateWallet';
 import ImportWallet from './ImportWallet';
