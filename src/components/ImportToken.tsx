@@ -22,14 +22,98 @@ interface TokenInfo {
 
 const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {
   const [tokenAddress, setTokenAddress] = useState('');
+  const [tokenName, setTokenName] = useState('');
   const [tokenInfo, setTokenInfo] = useState<TokenInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [searchType, setSearchType] = useState<'address' | 'name'>('address');
   const { toast } = useToast();
 
+  const searchTokenByAddress = async (address: string) => {
+    // Mock tokens database
+    const mockTokens: { [key: string]: TokenInfo } = {
+      'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v': {
+        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        symbol: 'USDC',
+        name: 'USD Coin',
+        decimals: 6
+      },
+      '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R': {
+        address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
+        symbol: 'RAY',
+        name: 'Raydium',
+        decimals: 6
+      },
+      'So11111111111111111111111111111111111111112': {
+        address: 'So11111111111111111111111111111111111111112',
+        symbol: 'SOL',
+        name: 'Wrapped SOL',
+        decimals: 9
+      }
+    };
+
+    const token = mockTokens[address];
+    if (token) {
+      return token;
+    } else {
+      return {
+        address: address,
+        symbol: 'UNKNOWN',
+        name: 'Unknown Token',
+        decimals: 9
+      };
+    }
+  };
+
+  const searchTokenByName = async (name: string) => {
+    // Mock token name database
+    const tokensByName: { [key: string]: TokenInfo } = {
+      'usd coin': {
+        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        symbol: 'USDC',
+        name: 'USD Coin',
+        decimals: 6
+      },
+      'usdc': {
+        address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        symbol: 'USDC',
+        name: 'USD Coin',
+        decimals: 6
+      },
+      'raydium': {
+        address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
+        symbol: 'RAY',
+        name: 'Raydium',
+        decimals: 6
+      },
+      'ray': {
+        address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
+        symbol: 'RAY',
+        name: 'Raydium',
+        decimals: 6
+      },
+      'wrapped sol': {
+        address: 'So11111111111111111111111111111111111111112',
+        symbol: 'SOL',
+        name: 'Wrapped SOL',
+        decimals: 9
+      },
+      'wsol': {
+        address: 'So11111111111111111111111111111111111111112',
+        symbol: 'SOL',
+        name: 'Wrapped SOL',
+        decimals: 9
+      }
+    };
+
+    return tokensByName[name.toLowerCase()];
+  };
+
   const searchToken = async () => {
-    if (!tokenAddress.trim()) {
-      setError('Please enter a token address');
+    const searchValue = searchType === 'address' ? tokenAddress : tokenName;
+    
+    if (!searchValue.trim()) {
+      setError(`Please enter a token ${searchType}`);
       return;
     }
 
@@ -37,43 +121,20 @@ const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {
     setError('');
     
     try {
-      // In a real app, this would fetch from Solana token registry or on-chain data
-      // For demo purposes, we'll simulate some common tokens
-      const mockTokens: { [key: string]: TokenInfo } = {
-        'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v': {
-          address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-          symbol: 'USDC',
-          name: 'USD Coin',
-          decimals: 6
-        },
-        '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R': {
-          address: '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R',
-          symbol: 'RAY',
-          name: 'Raydium',
-          decimals: 6
-        },
-        'So11111111111111111111111111111111111111112': {
-          address: 'So11111111111111111111111111111111111111112',
-          symbol: 'SOL',
-          name: 'Wrapped SOL',
-          decimals: 9
-        }
-      };
-
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const token = mockTokens[tokenAddress];
+      let token;
+      if (searchType === 'address') {
+        token = await searchTokenByAddress(searchValue);
+      } else {
+        token = await searchTokenByName(searchValue);
+      }
+
       if (token) {
         setTokenInfo(token);
       } else {
-        // For unknown tokens, create a generic entry
-        setTokenInfo({
-          address: tokenAddress,
-          symbol: 'UNKNOWN',
-          name: 'Unknown Token',
-          decimals: 9
-        });
+        setError(`Token not found by ${searchType}`);
       }
     } catch (err) {
       setError('Failed to fetch token information');
@@ -122,19 +183,49 @@ const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {
       <Card className="border-0 shadow-xl bg-gradient-to-br from-white via-white to-blue-50/50 rounded-3xl">
         <CardHeader>
           <CardTitle className="text-xl text-slate-900">Add Custom Token</CardTitle>
-          <p className="text-slate-600">Enter the token's mint address to add it to your wallet</p>
+          <p className="text-slate-600">Search by token name or enter the token's mint address</p>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Search Type Toggle */}
+          <div className="flex space-x-2 bg-slate-100 p-1 rounded-lg">
+            <Button
+              variant={searchType === 'name' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setSearchType('name')}
+              className="flex-1"
+            >
+              Search by Name
+            </Button>
+            <Button
+              variant={searchType === 'address' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setSearchType('address')}
+              className="flex-1"
+            >
+              Search by Address
+            </Button>
+          </div>
+
+          {/* Search Input */}
           <div className="space-y-2">
-            <Label htmlFor="tokenAddress" className="text-slate-700 font-medium">
-              Token Mint Address
+            <Label htmlFor="tokenSearch" className="text-slate-700 font-medium">
+              {searchType === 'address' ? 'Token Mint Address' : 'Token Name'}
             </Label>
             <div className="flex space-x-2">
               <Input
-                id="tokenAddress"
-                value={tokenAddress}
-                onChange={(e) => setTokenAddress(e.target.value)}
-                placeholder="Enter token mint address..."
+                id="tokenSearch"
+                value={searchType === 'address' ? tokenAddress : tokenName}
+                onChange={(e) => {
+                  if (searchType === 'address') {
+                    setTokenAddress(e.target.value);
+                  } else {
+                    setTokenName(e.target.value);
+                  }
+                }}
+                placeholder={searchType === 'address' 
+                  ? 'Enter token mint address...' 
+                  : 'Enter token name (e.g., USDC, Raydium)...'
+                }
                 className="flex-1 border-slate-200 focus:border-blue-400 text-slate-900"
               />
               <Button
@@ -196,6 +287,21 @@ const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {
       <Card className="border border-blue-200 bg-blue-50/50">
         <CardContent className="p-4">
           <div className="space-y-2">
+            <h3 className="font-semibold text-blue-900">Available Tokens</h3>
+            <p className="text-sm text-blue-800 mb-3">Try searching for these popular tokens:</p>
+            <div className="grid grid-cols-2 gap-2 text-sm text-blue-800">
+              <div>• USDC or USD Coin</div>
+              <div>• RAY or Raydium</div>
+              <div>• WSOL or Wrapped SOL</div>
+              <div>• Or enter any mint address</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border border-blue-200 bg-blue-50/50">
+        <CardContent className="p-4">
+          <div className="space-y-2">
             <h3 className="font-semibold text-blue-900">Important Notes</h3>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Only import tokens from trusted sources</li>
@@ -205,7 +311,7 @@ const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {
             </ul>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 };
