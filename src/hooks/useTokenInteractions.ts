@@ -14,19 +14,13 @@ interface Token {
 
 export const useTokenInteractions = () => {
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [showTokenDetails, setShowTokenDetails] = useState(false);
   const { toast } = useToast();
 
   const handleTokenClick = (token: Token) => {
     console.log('Token clicked:', token);
     setSelectedToken(token);
-    
-    // Show token details in a toast for now
-    toast({
-      title: `${token.symbol} Selected`,
-      description: `Balance: ${token.balance.toFixed(2)} | Value: $${token.usdValue.toFixed(2)}`,
-    });
-    
-    // Future: navigate to token details, show token actions modal, etc.
+    setShowTokenDetails(true);
   };
 
   const handleTokenAction = (action: 'send' | 'receive' | 'swap', token: Token) => {
@@ -36,16 +30,21 @@ export const useTokenInteractions = () => {
       title: `${action.charAt(0).toUpperCase() + action.slice(1)} ${token.symbol}`,
       description: `${action} functionality will be implemented here`,
     });
+    
+    // Close the modal after action
+    setShowTokenDetails(false);
   };
 
-  const clearSelectedToken = () => {
+  const closeTokenDetails = () => {
+    setShowTokenDetails(false);
     setSelectedToken(null);
   };
 
   return {
     selectedToken,
+    showTokenDetails,
     handleTokenClick,
     handleTokenAction,
-    clearSelectedToken
+    closeTokenDetails
   };
 };
