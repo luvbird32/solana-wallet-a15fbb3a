@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Wallet, Settings, Sparkles } from 'lucide-react';
@@ -16,7 +15,7 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
     <div className="flex items-center justify-between mb-12">
       <div className="flex items-center gap-8">
         <div className="relative">
-          <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-300 animate-float">
+          <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-300">
             <Wallet className="w-10 h-10 text-white" />
           </div>
           <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
