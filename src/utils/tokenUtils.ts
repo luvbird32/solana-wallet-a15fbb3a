@@ -71,3 +71,52 @@ export const clearImportedTokensCache = (): void => {
   cacheTimestamp = 0;
   console.log('Imported tokens cache cleared');
 };
+
+/**
+ * Formats a token amount with proper decimal places and thousands separators
+ * @param {number} amount - The token amount to format
+ * @param {number} [decimals=2] - Number of decimal places to show
+ * @returns {string} Formatted token amount string
+ */
+export const formatTokenAmount = (amount: number, decimals: number = 2): string => {
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  }).format(amount);
+};
+
+/**
+ * Validates if a string represents a valid token amount
+ * @param {string} amount - The amount string to validate
+ * @returns {boolean} True if valid token amount, false otherwise
+ */
+export const isValidTokenAmount = (amount: string): boolean => {
+  if (!amount || typeof amount !== 'string') {
+    return false;
+  }
+  
+  // Check for valid number format (positive numbers only)
+  const numberRegex = /^\d*\.?\d+$/;
+  if (!numberRegex.test(amount)) {
+    return false;
+  }
+  
+  const num = parseFloat(amount);
+  return !isNaN(num) && num >= 0;
+};
+
+/**
+ * Converts token amounts between different decimal precisions
+ * @param {number} amount - The amount to convert
+ * @param {number} fromDecimals - Source decimal precision
+ * @param {number} toDecimals - Target decimal precision
+ * @returns {number} Converted amount
+ */
+export const convertTokenDecimals = (amount: number, fromDecimals: number, toDecimals: number): number => {
+  if (fromDecimals === toDecimals) {
+    return amount;
+  }
+  
+  const decimalDiff = toDecimals - fromDecimals;
+  return amount * Math.pow(10, decimalDiff);
+};

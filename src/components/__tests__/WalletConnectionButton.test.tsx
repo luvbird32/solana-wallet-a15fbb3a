@@ -25,6 +25,7 @@ describe('WalletConnectionButton', () => {
   const mockConnect = vi.fn();
   const mockDisconnect = vi.fn();
   const mockFormatPublicKey = vi.fn();
+  const mockCopyToClipboard = vi.fn();
 
   /**
    * Setup function that runs before each test
@@ -38,7 +39,8 @@ describe('WalletConnectionButton', () => {
     vi.mocked(addressHook.useAddressFormatting).mockReturnValue({
       formatPublicKey: mockFormatPublicKey,
       formatAddress: vi.fn(),
-      copyToClipboard: vi.fn(),
+      isValidSolanaAddress: vi.fn(),
+      copyToClipboard: mockCopyToClipboard,
     });
     
     mockFormatPublicKey.mockReturnValue('ABC...XYZ');

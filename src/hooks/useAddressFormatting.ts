@@ -44,9 +44,24 @@ export const useAddressFormatting = () => {
     return base58Regex.test(address);
   }, []);
 
+  /**
+   * Copies text to clipboard using the browser's clipboard API
+   * @param {string} text - The text to copy to clipboard
+   * @returns {Promise<void>} Promise that resolves when text is copied
+   */
+  const copyToClipboard = useMemo(() => async (text: string): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Text copied to clipboard');
+    } catch (error) {
+      console.error('Failed to copy text to clipboard:', error);
+    }
+  }, []);
+
   return {
     formatAddress,
     formatPublicKey,
     isValidSolanaAddress,
+    copyToClipboard,
   };
 };
