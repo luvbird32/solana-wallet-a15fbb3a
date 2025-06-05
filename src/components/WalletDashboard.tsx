@@ -2,12 +2,12 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { useWallet } from '@/hooks/useWallet';
 import WalletHeader from './WalletHeader';
-import WalletConnectionPrompt from './WalletConnectionPrompt';
 import WalletBalance from './WalletBalance';
 import WalletTabs from './WalletTabs';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Lazy load heavy components
+const WalletConnectionPrompt = lazy(() => import('./WalletConnectionPrompt'));
 const TokenList = lazy(() => import('./TokenList'));
 const NFTGallery = lazy(() => import('./NFTGallery'));
 const TransactionHistory = lazy(() => import('./TransactionHistory'));
@@ -69,9 +69,11 @@ const WalletDashboard = () => {
         />
 
         {!connected ? (
-          <WalletConnectionPrompt
-            onShowWalletManagement={() => setShowWalletManagement(true)}
-          />
+          <Suspense fallback={<ComponentSkeleton />}>
+            <WalletConnectionPrompt
+              onShowWalletManagement={() => setShowWalletManagement(true)}
+            />
+          </Suspense>
         ) : (
           <>
             <WalletBalance

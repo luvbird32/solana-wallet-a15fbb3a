@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Wallet, Settings, Sparkles } from 'lucide-react';
@@ -8,22 +9,22 @@ interface WalletHeaderProps {
   onShowWalletManagement: () => void;
 }
 
-const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
+const WalletHeader = React.memo(({ onShowWalletManagement }: WalletHeaderProps) => {
   const { connected } = useWallet();
 
   return (
     <div className="flex items-center justify-between mb-12">
       <div className="flex items-center gap-6">
         <div className="relative">
-          <div className="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-300">
-            <Wallet className="w-8 h-8 text-white" />
+          <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-300">
+            <Wallet className="w-6 h-6 text-white" />
           </div>
-          <div className="absolute -top-1 -right-1 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
-            <Sparkles className="w-3 h-3 text-white" />
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+            <Sparkles className="w-2.5 h-2.5 text-white" />
           </div>
         </div>
-        <div className="space-y-2">
-          <h1 className="text-4xl font-black text-slate-800">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-black text-slate-800">
             Solana Wallet
           </h1>
           <div className="flex items-center gap-4">
@@ -34,7 +35,7 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
                 connected ? 'bg-emerald-400' : 'bg-orange-400'
               }`}></div>
             </div>
-            <p className={`text-lg font-bold ${
+            <p className={`text-sm font-bold ${
               connected ? 'text-emerald-600' : 'text-orange-600'
             }`}>
               {connected ? '🟢 Wallet Connected' : '🟡 Wallet Not Connected'}
@@ -56,6 +57,8 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
       </div>
     </div>
   );
-};
+});
+
+WalletHeader.displayName = 'WalletHeader';
 
 export default WalletHeader;

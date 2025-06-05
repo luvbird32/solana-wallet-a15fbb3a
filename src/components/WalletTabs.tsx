@@ -18,7 +18,7 @@ const tabs: Tab[] = [
   { id: 'history', label: 'History' }
 ];
 
-const WalletTabs = ({ activeTab, onTabChange }: WalletTabsProps) => {
+const WalletTabs = React.memo(({ activeTab, onTabChange }: WalletTabsProps) => {
   return (
     <div className="bg-white/80 backdrop-blur-lg border border-slate-200 p-2 rounded-3xl shadow-xl">
       {tabs.map((tab) => (
@@ -50,6 +50,8 @@ const WalletTabs = ({ activeTab, onTabChange }: WalletTabsProps) => {
       ))}
     </div>
   );
-};
+});
+
+WalletTabs.displayName = 'WalletTabs';
 
 export default WalletTabs;
