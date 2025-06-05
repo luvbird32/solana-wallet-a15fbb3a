@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Security service for authentication, validation, and audit logging
  * @description Provides comprehensive security features including password validation,
@@ -138,6 +137,11 @@ export const logSecurityEvent = (event: {
 };
 
 /**
+ * Rate limiting storage (in-memory for demo - use Redis in production)
+ */
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+/**
  * Checks rate limiting for various operations to prevent abuse
  * @param {keyof typeof SECURITY_CONFIG.RATE_LIMITS} operation - The operation to check
  * @param {string} clientId - Unique identifier for the client (IP, user ID, etc.)
@@ -149,7 +153,6 @@ export const logSecurityEvent = (event: {
  * - API abuse
  * - Resource exhaustion
  * @security Essential for preventing various attack vectors
- * @todo Implement with Redis or similar when backend infrastructure is ready
  * @example
  * ```typescript
  * const limitCheck = checkRateLimit('wallet_creation', clientIP);
@@ -161,8 +164,85 @@ export const logSecurityEvent = (event: {
 export const checkRateLimit = (operation: keyof typeof SECURITY_CONFIG.RATE_LIMITS, clientId: string): {
   allowed: boolean;
   resetTime?: number;
+  remaining?: number;
 } => {
-  // TODO: Implement actual rate limiting with Redis or similar when backend is implemented
-  // For now, always allow operations
-  return { allowed: true };
+  const config = SECURITY_CONFIG.RATE_LIMITS[operation];
+  if (!config) {
+    console.warn(`Unknown rate limit operation: ${operation}`);
+    return { allowed: true };
+  }
+
+  const key = `${operation}:${clientId}`;
+  const now = Date.now();
+  const windowStart = now - config.windowMs;
+
+  // Get or create rate limit entry
+  let entry = rateLimitStore.get(key);
+  
+  if (!entry || entry.resetTime <= now) {
+    // Create new window
+    entry = {
+      count: 0,
+      resetTime: now + config.windowMs
+    };
+  }
+
+  // Check if request is allowed
+  if (entry.count >= config.requests) {
+    rateLimitStore.set(key, entry);
+    return {
+      allowed: false,
+      resetTime: entry.resetTime,
+      remaining: 0
+    };
+  }
+
+  // Increment counter and allow request
+  entry.count++;
+  rateLimitStore.set(key, entry);
+
+  // Clean up old entries periodically
+  if (Math.random() < 0.01) { // 1% chance to clean up
+    cleanupExpiredEntries();
+  }
+
+  return {
+    allowed: true,
+    remaining: config.requests - entry.count
+  };
+};
+
+/**
+ * Cleans up expired rate limit entries to prevent memory leaks
+ * @returns {void}
+ */
+const cleanupExpiredEntries = (): void => {
+  const now = Date.now();
+  for (const [key, entry] of rateLimitStore.entries()) {
+    if (entry.resetTime <= now) {
+      rateLimitStore.delete(key);
+    }
+  }
+};
+
+/**
+ * Gets current rate limit status for debugging/monitoring
+ * @param {string} clientId - Client identifier
+ * @returns {Object} Current rate limit status for all operations
+ */
+export const getRateLimitStatus = (clientId: string): Record<string, any> => {
+  const status: Record<string, any> = {};
+  
+  for (const operation of Object.keys(SECURITY_CONFIG.RATE_LIMITS)) {
+    const key = `${operation}:${clientId}`;
+    const entry = rateLimitStore.get(key);
+    
+    status[operation] = {
+      requests: entry?.count || 0,
+      resetTime: entry?.resetTime,
+      allowed: !entry || entry.count < SECURITY_CONFIG.RATE_LIMITS[operation as keyof typeof SECURITY_CONFIG.RATE_LIMITS].requests
+    };
+  }
+  
+  return status;
 };

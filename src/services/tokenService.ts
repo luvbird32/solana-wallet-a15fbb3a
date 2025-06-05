@@ -1,10 +1,11 @@
 
 /**
- * @fileoverview Token search and metadata service with caching
- * @description Provides functions to search for tokens by address or name with in-memory caching
+ * @fileoverview Token search and metadata service with caching and rate limiting
+ * @description Provides functions to search for tokens by address or name with in-memory caching and API rate limiting
  */
 
 import { TokenInfo } from '@/types/token';
+import { checkRateLimit } from '../../backend/services/securityService';
 
 /** Mock token database for development */
 const MOCK_TOKENS: { [key: string]: TokenInfo } = {
@@ -66,11 +67,28 @@ const setCachedToken = (key: string, data: TokenInfo | null): void => {
 };
 
 /**
+ * Checks rate limit before performing token operations
+ * @param {string} clientId - Client identifier for rate limiting
+ * @returns {Promise<void>} Throws error if rate limited
+ */
+const checkTokenSearchRateLimit = async (clientId: string = 'default'): Promise<void> => {
+  const rateCheck = checkRateLimit('TOKEN_SEARCH', clientId);
+  
+  if (!rateCheck.allowed) {
+    const resetTime = rateCheck.resetTime ? new Date(rateCheck.resetTime).toLocaleTimeString() : 'soon';
+    throw new Error(`Rate limit exceeded for token search. Try again at ${resetTime}`);
+  }
+};
+
+/**
  * Searches for a token by its blockchain address
  * @param {string} address - The token's mint address
  * @returns {Promise<TokenInfo | null>} Token information or null if not found
  */
 export const searchTokenByAddress = async (address: string): Promise<TokenInfo | null> => {
+  // Check rate limit first
+  await checkTokenSearchRateLimit();
+
   // Check cache first
   const cached = getCachedToken(`address:${address}`);
   if (cached !== null) {
@@ -109,6 +127,9 @@ export const searchTokenByAddress = async (address: string): Promise<TokenInfo |
  * @returns {Promise<TokenInfo | null>} Token information or null if not found
  */
 export const searchTokenByName = async (name: string): Promise<TokenInfo | null> => {
+  // Check rate limit first
+  await checkTokenSearchRateLimit();
+
   const cacheKey = `name:${name.toLowerCase()}`;
   
   // Check cache first

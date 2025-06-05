@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Backend configuration constants and network settings
  * @description Centralized configuration for Solana networks, security settings,
@@ -73,20 +72,6 @@ export const SECURITY_CONFIG = {
 } as const;
 
 /**
- * Solana token standards and well-known program addresses
- * @constant TOKEN_STANDARDS
- * @description Standard program addresses for Solana token operations
- */
-export const TOKEN_STANDARDS = {
-  /** Original SPL Token Program address */
-  SPL_TOKEN_PROGRAM: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
-  /** SPL Token 2022 Program address with extended features */
-  SPL_TOKEN_2022_PROGRAM: 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb',
-  /** Associated Token Account Program address */
-  ASSOCIATED_TOKEN_PROGRAM: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
-} as const;
-
-/**
  * API rate limiting configuration for different operations
  * @constant RATE_LIMITS
  * @description Defines rate limits to prevent abuse and ensure fair usage
@@ -98,6 +83,59 @@ export const RATE_LIMITS = {
   TOKEN_SEARCH: { requests: 100, windowMs: 60 * 1000 }, // 100 per minute
   /** Rate limit for balance check operations */
   BALANCE_CHECK: { requests: 200, windowMs: 60 * 1000 } // 200 per minute
+} as const;
+
+// Update SECURITY_CONFIG to include RATE_LIMITS
+export const SECURITY_CONFIG = {
+  /** Encryption algorithm and key parameters */
+  ENCRYPTION: {
+    /** AES encryption algorithm with Galois/Counter Mode */
+    ALGORITHM: 'aes-256-gcm',
+    /** Encryption key length in bytes */
+    KEY_LENGTH: 32,
+    /** Initialization vector length in bytes */
+    IV_LENGTH: 16,
+    /** Salt length for key derivation in bytes */
+    SALT_LENGTH: 32,
+    /** Authentication tag length in bytes */
+    TAG_LENGTH: 16
+  },
+  /** Password complexity requirements */
+  PASSWORD: {
+    /** Minimum password length */
+    MIN_LENGTH: 8,
+    /** Require at least one uppercase letter */
+    REQUIRE_UPPERCASE: true,
+    /** Require at least one lowercase letter */
+    REQUIRE_LOWERCASE: true,
+    /** Require at least one numeric digit */
+    REQUIRE_NUMBERS: true,
+    /** Require at least one special character */
+    REQUIRE_SYMBOLS: true
+  },
+  /** Session management configuration */
+  SESSION: {
+    /** Session timeout in milliseconds (30 minutes) */
+    TIMEOUT_MS: 30 * 60 * 1000,
+    /** Time before expiration to trigger refresh (5 minutes) */
+    REFRESH_THRESHOLD_MS: 5 * 60 * 1000
+  },
+  /** Rate limiting configuration */
+  RATE_LIMITS
+} as const;
+
+/**
+ * Solana token standards and well-known program addresses
+ * @constant TOKEN_STANDARDS
+ * @description Standard program addresses for Solana token operations
+ */
+export const TOKEN_STANDARDS = {
+  /** Original SPL Token Program address */
+  SPL_TOKEN_PROGRAM: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+  /** SPL Token 2022 Program address with extended features */
+  SPL_TOKEN_2022_PROGRAM: 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb',
+  /** Associated Token Account Program address */
+  ASSOCIATED_TOKEN_PROGRAM: 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
 } as const;
 
 /**
