@@ -311,7 +311,7 @@ const ImportToken = ({ onBack, onTokenImported }: ImportTokenProps) => {
             </ul>
           </div>
         </CardContent>
-      </div>
+      </Card>
     </div>
   );
 };
