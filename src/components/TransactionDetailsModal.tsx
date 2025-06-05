@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Copy, ExternalLink, ArrowUp, ArrowDown, CheckCircle, Clock, XCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -46,25 +45,25 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
       case 'confirmed': 
         return {
           color: 'text-success bg-success/10 border-success/30',
-          icon: <CheckCircle className="w-5 h-5" />,
+          icon: <CheckCircle className="w-4 h-4" />,
           text: 'Confirmed'
         };
       case 'pending': 
         return {
           color: 'text-warning bg-warning/10 border-warning/30',
-          icon: <Clock className="w-5 h-5" />,
+          icon: <Clock className="w-4 h-4" />,
           text: 'Pending'
         };
       case 'failed': 
         return {
           color: 'text-error bg-error/10 border-error/30',
-          icon: <XCircle className="w-5 h-5" />,
+          icon: <XCircle className="w-4 h-4" />,
           text: 'Failed'
         };
       default: 
         return {
           color: 'text-muted-foreground bg-muted border-border',
-          icon: <Clock className="w-5 h-5" />,
+          icon: <Clock className="w-4 h-4" />,
           text: 'Unknown'
         };
     }
@@ -90,11 +89,11 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-4">
-            <div className="w-12 h-12 glass border border-white/30 rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center">
               {getTypeIcon(transaction.type)}
             </div>
             <div className="text-left">
-              <span className="capitalize">{transaction.type} Transaction</span>
+              <span className="capitalize text-xl font-bold">{transaction.type} Transaction</span>
               <DialogDescription className="mt-1">
                 Transaction details and information
               </DialogDescription>
@@ -102,36 +101,36 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Amount and Status */}
           <div className="text-center space-y-4">
             <div className="space-y-2">
-              <p className="text-4xl font-bold text-foreground">
+              <p className="text-3xl font-bold text-foreground">
                 {transaction.type === 'send' ? '-' : '+'}{transaction.amount} {transaction.token}
               </p>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-base text-muted-foreground">
                 {transaction.timestamp.toLocaleString()}
               </p>
             </div>
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium border ${statusConfig.color}`}>
+            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-medium border ${statusConfig.color}`}>
               {statusConfig.icon}
               {statusConfig.text}
             </div>
           </div>
 
           {/* Transaction Details */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <label className="text-sm font-semibold text-foreground mb-3 block">
+              <label className="text-sm font-semibold text-foreground mb-2 block">
                 {transaction.type === 'swap' ? 'Platform' : transaction.type === 'send' ? 'To' : 'From'}
               </label>
-              <div className="flex items-center justify-between p-4 glass border border-white/30 rounded-2xl">
+              <div className="flex items-center justify-between p-3 bg-white/50 border border-white/50 rounded-xl">
                 <span className="font-mono text-sm text-foreground">{transaction.toFrom}</span>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => copyToClipboard(transaction.toFrom, 'Address')}
-                  className="h-8 w-8 p-0 hover:bg-white/20"
+                  className="h-8 w-8 p-0 hover:bg-white/80"
                 >
                   <Copy className="w-4 h-4" />
                 </Button>
@@ -139,15 +138,15 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-foreground mb-3 block">Transaction Hash</label>
-              <div className="flex items-center justify-between p-4 glass border border-white/30 rounded-2xl">
+              <label className="text-sm font-semibold text-foreground mb-2 block">Transaction Hash</label>
+              <div className="flex items-center justify-between p-3 bg-white/50 border border-white/50 rounded-xl">
                 <span className="font-mono text-sm truncate text-foreground flex-1 mr-2">{mockTransactionHash}</span>
-                <div className="flex gap-2">
+                <div className="flex gap-1">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => copyToClipboard(mockTransactionHash, 'Transaction hash')}
-                    className="h-8 w-8 p-0 hover:bg-white/20"
+                    className="h-8 w-8 p-0 hover:bg-white/80"
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
@@ -155,7 +154,7 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
                     variant="ghost"
                     size="sm"
                     onClick={() => window.open(`https://explorer.solana.com/tx/${mockTransactionHash}`, '_blank')}
-                    className="h-8 w-8 p-0 hover:bg-white/20"
+                    className="h-8 w-8 p-0 hover:bg-white/80"
                   >
                     <ExternalLink className="w-4 h-4" />
                   </Button>
@@ -165,14 +164,14 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
 
             {transaction.status === 'confirmed' && (
               <div>
-                <label className="text-sm font-semibold text-foreground mb-3 block">Signature</label>
-                <div className="flex items-center justify-between p-4 glass border border-white/30 rounded-2xl">
+                <label className="text-sm font-semibold text-foreground mb-2 block">Signature</label>
+                <div className="flex items-center justify-between p-3 bg-white/50 border border-white/50 rounded-xl">
                   <span className="font-mono text-sm truncate text-foreground flex-1 mr-2">{mockSignature}</span>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => copyToClipboard(mockSignature, 'Signature')}
-                    className="h-8 w-8 p-0 hover:bg-white/20"
+                    className="h-8 w-8 p-0 hover:bg-white/80"
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
@@ -182,13 +181,13 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
           </div>
 
           {/* Actions */}
-          <div className="pt-4">
+          <div className="pt-2">
             <Button
               variant="outline"
-              className="w-full h-12 glass border border-white/40 hover:border-white/60 hover:bg-white/10"
+              className="w-full h-11 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70"
               onClick={() => window.open(`https://explorer.solana.com/tx/${mockTransactionHash}`, '_blank')}
             >
-              <ExternalLink className="w-5 h-5 mr-3" />
+              <ExternalLink className="w-4 h-4 mr-2" />
               View on Solana Explorer
             </Button>
           </div>

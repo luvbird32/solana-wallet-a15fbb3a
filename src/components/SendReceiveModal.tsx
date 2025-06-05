@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowUp, ArrowDown, Copy, QrCode } from 'lucide-react';
@@ -41,19 +40,19 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md glass border border-white/40">
+      <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center space-x-6">
-            <div className="w-20 h-20 glass border border-white/40 rounded-3xl flex items-center justify-center shadow-xl">
+          <DialogTitle className="flex items-center space-x-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center shadow-lg">
               {mode === 'send' ? (
-                <ArrowUp className="w-10 h-10 text-primary" />
+                <ArrowUp className="w-8 h-8 text-primary" />
               ) : (
-                <ArrowDown className="w-10 h-10 text-primary" />
+                <ArrowDown className="w-8 h-8 text-primary" />
               )}
             </div>
             <div className="text-left">
-              <h2 className="text-3xl font-bold text-foreground capitalize">{mode} Crypto</h2>
-              <DialogDescription className="text-lg mt-1">
+              <h2 className="text-2xl font-bold text-foreground capitalize">{mode} Crypto</h2>
+              <DialogDescription className="text-base mt-1">
                 {mode === 'send' ? 'Send cryptocurrency to another wallet' : 'Receive cryptocurrency from others'}
               </DialogDescription>
             </div>
@@ -61,35 +60,35 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
         </DialogHeader>
 
         {mode === 'send' ? (
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div>
-              <label className="block text-lg font-semibold text-foreground mb-4">
+              <label className="block text-base font-semibold text-foreground mb-3">
                 Recipient Address
               </label>
               <Input
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
                 placeholder="Enter wallet address"
-                className="h-14 rounded-2xl glass border border-white/40 focus:border-white/60 text-lg"
+                className="h-12 rounded-xl bg-white/50 border border-white/50 focus:border-primary/50 text-base"
               />
             </div>
 
             <div>
-              <label className="block text-lg font-semibold text-foreground mb-4">
+              <label className="block text-base font-semibold text-foreground mb-3">
                 Amount
               </label>
-              <div className="flex space-x-4">
+              <div className="flex space-x-3">
                 <Input
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   type="number"
-                  className="h-14 rounded-2xl glass border border-white/40 focus:border-white/60 text-lg"
+                  className="h-12 rounded-xl bg-white/50 border border-white/50 focus:border-primary/50 text-base"
                 />
                 <select
                   value={selectedToken}
                   onChange={(e) => setSelectedToken(e.target.value)}
-                  className="h-14 glass border border-white/40 rounded-2xl px-6 text-foreground font-semibold backdrop-blur-xl focus:border-white/60 focus:outline-none min-w-[100px]"
+                  className="h-12 bg-white/50 border border-white/50 rounded-xl px-4 text-foreground font-semibold backdrop-blur-sm focus:border-primary/50 focus:outline-none min-w-[100px]"
                 >
                   <option value="SOL">SOL</option>
                   <option value="USDC">USDC</option>
@@ -100,39 +99,39 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
 
             <Button
               onClick={handleSend}
-              className="w-full h-14 text-xl rounded-2xl glass border border-white/50 hover:border-white/70 bg-primary/90 hover:bg-primary text-primary-foreground font-semibold shadow-xl transition-all duration-200"
+              className="w-full h-12 text-lg rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg transition-all duration-200"
               disabled={!amount || !recipient}
             >
               Send {selectedToken}
             </Button>
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="text-center">
-              <div className="w-64 h-64 glass border border-white/40 rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-xl">
-                <QrCode className="w-48 h-48 text-muted-foreground" />
+              <div className="w-48 h-48 bg-white/50 border border-white/50 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
+                <QrCode className="w-32 h-32 text-muted-foreground" />
               </div>
-              <p className="text-xl text-muted-foreground mb-8">
+              <p className="text-lg text-muted-foreground mb-6">
                 Scan this QR code or copy the address below
               </p>
             </div>
 
             <div>
-              <label className="block text-lg font-semibold text-foreground mb-4">
+              <label className="block text-base font-semibold text-foreground mb-3">
                 Your Wallet Address
               </label>
-              <div className="flex space-x-4">
+              <div className="flex space-x-3">
                 <Input
                   value={walletAddress}
                   readOnly
-                  className="glass border border-white/40 h-14 rounded-2xl text-foreground font-mono text-sm backdrop-blur-xl"
+                  className="bg-white/50 border border-white/50 h-12 rounded-xl text-foreground font-mono text-sm backdrop-blur-sm"
                 />
                 <Button
                   onClick={handleCopyAddress}
                   variant="outline"
-                  className="h-14 px-6 rounded-2xl glass border border-white/40 hover:border-white/60 hover:bg-white/20"
+                  className="h-12 px-4 rounded-xl bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70"
                 >
-                  <Copy className="w-6 h-6" />
+                  <Copy className="w-5 h-5" />
                 </Button>
               </div>
             </div>
