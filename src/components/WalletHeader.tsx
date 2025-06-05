@@ -15,11 +15,11 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
   return (
     <div className="flex items-center justify-between mb-8">
       <div className="flex items-center space-x-6">
-        <div className="w-16 h-16 wallet-gradient rounded-3xl flex items-center justify-center shadow-xl shadow-primary/20 transform hover:scale-105 transition-all duration-300">
-          <Wallet className="w-8 h-8 text-white" />
+        <div className="w-16 h-16 glass border border-white/30 rounded-3xl flex items-center justify-center shadow-xl transform hover:scale-105 transition-all duration-300">
+          <Wallet className="w-8 h-8 text-primary" />
         </div>
         <div>
-          <h1 className="text-5xl font-bold gradient-text mb-2">Solana Wallet</h1>
+          <h1 className="text-5xl font-bold text-foreground mb-2">Solana Wallet</h1>
           <div className="flex items-center space-x-3">
             <div className={`w-3 h-3 rounded-full animate-pulse shadow-lg ${connected ? 'bg-success shadow-success/50' : 'bg-warning shadow-warning/50'}`}></div>
             <p className={`text-lg font-semibold ${connected ? 'text-success' : 'text-warning'}`}>
@@ -33,7 +33,7 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
           onClick={onShowWalletManagement}
           variant="outline"
           size="lg"
-          className="secondary-button border-2"
+          className="glass border border-white/30 hover:border-white/50 text-foreground hover:bg-white/20 backdrop-blur-md shadow-lg"
         >
           <Settings className="w-5 h-5 mr-2" />
           Wallet Management

@@ -14,7 +14,7 @@ const WalletConnectionButton = () => {
   if (connected && publicKey) {
     return (
       <div className="flex items-center space-x-4">
-        <div className="bg-success-light border-2 border-success/20 px-6 py-3 rounded-2xl shadow-lg">
+        <div className="glass border border-white/30 px-6 py-3 rounded-2xl shadow-lg">
           <div className="flex items-center space-x-3">
             <div className="w-3 h-3 bg-success rounded-full shadow-lg shadow-success/50 animate-pulse"></div>
             <span className="text-success font-bold">{walletName}</span>
@@ -25,7 +25,7 @@ const WalletConnectionButton = () => {
           onClick={disconnect}
           variant="outline"
           size="lg"
-          className="border-2 border-error/20 text-error hover:bg-error-light hover:border-error/40 transition-all duration-300"
+          className="glass border border-white/30 hover:border-error/40 text-error hover:bg-error/10 transition-all duration-300"
         >
           <Power className="w-4 h-4 mr-2" />
           Disconnect
@@ -39,7 +39,7 @@ const WalletConnectionButton = () => {
       onClick={connect}
       disabled={connecting}
       size="lg"
-      className="wallet-button text-lg px-8 py-6 shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30"
+      className="glass border border-white/40 hover:border-white/60 bg-primary/90 hover:bg-primary text-primary-foreground text-lg px-8 py-6 shadow-xl backdrop-blur-md"
     >
       <Wallet className="w-5 h-5 mr-3" />
       {connecting ? 'Connecting...' : 'Connect Wallet'}

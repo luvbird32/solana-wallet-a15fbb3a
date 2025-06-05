@@ -11,13 +11,13 @@ interface WalletConnectionPromptProps {
 const WalletConnectionPrompt = ({ onShowWalletManagement }: WalletConnectionPromptProps) => {
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <Card className="p-16 border-0 shadow-2xl bg-gradient-to-br from-white via-white to-surface rounded-3xl text-center max-w-2xl transform hover:scale-[1.02] transition-all duration-500">
+      <Card className="p-16 glass border border-white/30 shadow-2xl rounded-3xl text-center max-w-2xl transform hover:scale-[1.02] transition-all duration-500">
         <div className="space-y-8">
-          <div className="w-32 h-32 wallet-gradient rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-primary/30 animate-float">
-            <Wallet className="w-16 h-16 text-white" />
+          <div className="w-32 h-32 glass border border-white/40 rounded-full flex items-center justify-center mx-auto shadow-2xl animate-float">
+            <Wallet className="w-16 h-16 text-primary" />
           </div>
           <div className="space-y-4">
-            <h2 className="text-4xl font-bold gradient-text">Connect Your Wallet</h2>
+            <h2 className="text-4xl font-bold text-foreground">Connect Your Wallet</h2>
             <p className="text-muted-foreground text-xl leading-relaxed">
               Connect your Solana wallet to view your portfolio and start trading with the most secure and user-friendly experience
             </p>

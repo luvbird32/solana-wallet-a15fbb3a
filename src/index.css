@@ -39,9 +39,7 @@
 
   /* Enhanced token component tokens */
   .token-card {
-    background: linear-gradient(135deg, hsl(var(--token-card-bg)), hsl(var(--surface)));
-    border-color: hsl(var(--token-card-border));
-    @apply border-2 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 cursor-pointer rounded-2xl backdrop-blur-sm hover:border-primary/30;
+    @apply glass border border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-500 cursor-pointer rounded-2xl backdrop-blur-md;
   }
 
   .token-card:hover {
@@ -58,49 +56,37 @@
 
   /* Enhanced NFT component tokens */
   .nft-card {
-    background: linear-gradient(135deg, hsl(var(--token-card-bg)), hsl(var(--surface)));
-    border-color: hsl(var(--token-card-border));
-    @apply border-2 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 cursor-pointer rounded-2xl backdrop-blur-sm;
+    @apply glass border border-white/30 hover:border-white/50 hover:shadow-2xl transition-all duration-500 cursor-pointer rounded-2xl backdrop-blur-md;
   }
 
   .nft-card:hover {
-    border-color: hsl(var(--primary));
     transform: translateY(-4px) scale(1.02);
   }
 
   /* Enhanced semantic status components */
   .success-badge {
-    background-color: hsl(var(--success-light));
-    color: hsl(var(--success));
-    @apply px-3 py-2 rounded-xl text-sm font-semibold shadow-lg;
+    @apply glass border border-success/30 text-success px-3 py-2 rounded-xl text-sm font-semibold shadow-lg backdrop-blur-md;
   }
 
   .warning-badge {
-    background-color: hsl(var(--warning-light));
-    color: hsl(var(--warning));
-    @apply px-3 py-2 rounded-xl text-sm font-semibold shadow-lg;
+    @apply glass border border-warning/30 text-warning px-3 py-2 rounded-xl text-sm font-semibold shadow-lg backdrop-blur-md;
   }
 
   .error-badge {
-    background-color: hsl(var(--error-light));
-    color: hsl(var(--error));
-    @apply px-3 py-2 rounded-xl text-sm font-semibold shadow-lg;
+    @apply glass border border-error/30 text-error px-3 py-2 rounded-xl text-sm font-semibold shadow-lg backdrop-blur-md;
   }
 
   .info-badge {
-    background-color: hsl(var(--info-light));
-    color: hsl(var(--info));
-    @apply px-3 py-2 rounded-xl text-sm font-semibold shadow-lg;
+    @apply glass border border-info/30 text-info px-3 py-2 rounded-xl text-sm font-semibold shadow-lg backdrop-blur-md;
   }
 
   /* Enhanced utility classes */
   .gradient-text {
-    @apply bg-gradient-to-r bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)), hsl(var(--accent)));
+    @apply text-primary;
   }
 
   .wallet-gradient {
-    background: linear-gradient(135deg, hsl(var(--wallet-gradient-from)), hsl(var(--wallet-gradient-to)));
+    @apply glass border border-white/40;
   }
 
   /* Glass morphism effect */
@@ -115,7 +101,7 @@
 
   /* Enhanced card styles */
   .enhanced-card {
-    @apply bg-gradient-to-br from-white to-surface border-2 border-border/50 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl backdrop-blur-sm;
+    @apply glass border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl backdrop-blur-md;
   }
 }
 
