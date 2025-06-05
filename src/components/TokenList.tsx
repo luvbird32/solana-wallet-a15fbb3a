@@ -46,20 +46,20 @@ const TokenList = () => {
         <Card key={token.symbol} className="token-card group p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-5">
-              <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+              <div className="w-14 h-14 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-sm">
                 {token.icon}
               </div>
               <div>
-                <h3 className="font-bold text-white text-xl">{token.symbol}</h3>
-                <p className="text-gray-300 text-sm font-medium">{token.name}</p>
+                <h3 className="font-bold text-gray-900 text-xl">{token.symbol}</h3>
+                <p className="text-gray-600 text-sm font-medium">{token.name}</p>
               </div>
             </div>
             
             <div className="text-right">
-              <p className="font-bold text-white text-xl">{token.balance.toFixed(2)}</p>
-              <p className="text-gray-300 text-sm font-medium">${token.usdValue.toFixed(2)}</p>
+              <p className="font-bold text-gray-900 text-xl">{token.balance.toFixed(2)}</p>
+              <p className="text-gray-600 text-sm font-medium">${token.usdValue.toFixed(2)}</p>
               <p className={`text-sm font-bold mt-1 ${
-                token.change24h >= 0 ? 'text-green-400' : 'text-red-400'
+                token.change24h >= 0 ? 'text-green-600' : 'text-red-500'
               }`}>
                 {token.change24h >= 0 ? '+' : ''}{token.change24h.toFixed(2)}%
               </p>

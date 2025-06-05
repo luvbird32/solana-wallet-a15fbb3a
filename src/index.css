@@ -5,44 +5,44 @@
 
 @layer base {
   :root {
-    --background: 9 9 11;
-    --foreground: 250 250 250;
+    --background: 255 255 255;
+    --foreground: 15 23 42;
 
-    --card: 24 24 27;
-    --card-foreground: 250 250 250;
+    --card: 255 255 255;
+    --card-foreground: 15 23 42;
 
-    --popover: 24 24 27;
-    --popover-foreground: 250 250 250;
+    --popover: 255 255 255;
+    --popover-foreground: 15 23 42;
 
-    --primary: 168 85 247;
+    --primary: 59 130 246;
     --primary-foreground: 255 255 255;
 
-    --secondary: 34 197 94;
-    --secondary-foreground: 255 255 255;
+    --secondary: 148 163 184;
+    --secondary-foreground: 15 23 42;
 
-    --muted: 39 39 42;
-    --muted-foreground: 161 161 170;
+    --muted: 241 245 249;
+    --muted-foreground: 100 116 139;
 
-    --accent: 236 72 153;
+    --accent: 59 130 246;
     --accent-foreground: 255 255 255;
 
     --destructive: 248 113 113;
     --destructive-foreground: 255 255 255;
 
-    --border: 39 39 42;
-    --input: 39 39 42;
-    --ring: 168 85 247;
+    --border: 226 232 240;
+    --input: 226 232 240;
+    --ring: 59 130 246;
 
-    --radius: 1rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 9 9 11;
-    --sidebar-foreground: 250 250 250;
-    --sidebar-primary: 168 85 247;
+    --sidebar-background: 255 255 255;
+    --sidebar-foreground: 15 23 42;
+    --sidebar-primary: 59 130 246;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 24 24 27;
-    --sidebar-accent-foreground: 250 250 250;
-    --sidebar-border: 39 39 42;
-    --sidebar-ring: 168 85 247;
+    --sidebar-accent: 241 245 249;
+    --sidebar-accent-foreground: 15 23 42;
+    --sidebar-border: 226 232 240;
+    --sidebar-ring: 59 130 246;
   }
 }
 
@@ -52,33 +52,29 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-zinc-900 via-zinc-900 to-purple-900 text-foreground min-h-screen;
+    @apply bg-white text-foreground min-h-screen;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
-  }
-  
   .wallet-button {
-    @apply bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300;
+    @apply bg-blue-500 hover:bg-blue-600 text-white;
   }
   
   .secondary-button {
-    @apply bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-green-500/25 transform hover:scale-105 transition-all duration-300;
+    @apply bg-blue-500 hover:bg-blue-600 text-white;
   }
   
   .balance-text {
-    @apply text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent;
+    @apply text-4xl font-bold text-blue-600;
   }
 
   .token-card {
-    @apply glass-card hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 cursor-pointer;
+    @apply bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 cursor-pointer rounded-lg;
   }
 
   .nft-card {
-    @apply glass-card hover:bg-white/10 hover:border-pink-500/30 transition-all duration-300 cursor-pointer;
+    @apply bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 cursor-pointer rounded-lg;
   }
 }

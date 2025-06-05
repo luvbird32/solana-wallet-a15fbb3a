@@ -47,18 +47,18 @@ const NFTGallery = () => {
     <div className="grid grid-cols-2 gap-6">
       {nfts.map((nft) => (
         <Card key={nft.id} className="nft-card group p-4">
-          <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-white/10">
+          <div className="aspect-square rounded-lg overflow-hidden mb-4 border border-gray-200">
             <img
               src={nft.image}
               alt={nft.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           </div>
           <div className="space-y-2">
-            <h3 className="font-bold text-white text-sm truncate">{nft.name}</h3>
-            <p className="text-gray-300 text-xs truncate font-medium">{nft.collection}</p>
+            <h3 className="font-bold text-gray-900 text-sm truncate">{nft.name}</h3>
+            <p className="text-gray-600 text-xs truncate font-medium">{nft.collection}</p>
             {nft.floorPrice && (
-              <p className="text-pink-400 text-xs font-bold">
+              <p className="text-blue-600 text-xs font-bold">
                 Floor: {nft.floorPrice} SOL
               </p>
             )}
