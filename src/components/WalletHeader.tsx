@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Wallet, Settings } from 'lucide-react';
+import { Wallet, Settings, Sparkles } from 'lucide-react';
 import { useWallet } from '@/hooks/useWallet';
 import WalletConnectionButton from './WalletConnectionButton';
 
@@ -13,29 +13,44 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
   const { connected } = useWallet();
 
   return (
-    <div className="flex items-center justify-between mb-8">
-      <div className="flex items-center space-x-6">
-        <div className="w-16 h-16 glass border border-white/30 rounded-3xl flex items-center justify-center shadow-xl transform hover:scale-105 transition-all duration-300">
-          <Wallet className="w-8 h-8 text-primary" />
+    <div className="flex items-center justify-between mb-12">
+      <div className="flex items-center gap-8">
+        <div className="relative">
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-300 animate-float">
+            <Wallet className="w-10 h-10 text-white" />
+          </div>
+          <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
         </div>
-        <div>
-          <h1 className="text-5xl font-bold text-foreground mb-2">Solana Wallet</h1>
-          <div className="flex items-center space-x-3">
-            <div className={`w-3 h-3 rounded-full animate-pulse shadow-lg ${connected ? 'bg-success shadow-success/50' : 'bg-warning shadow-warning/50'}`}></div>
-            <p className={`text-lg font-semibold ${connected ? 'text-success' : 'text-warning'}`}>
-              {connected ? 'Wallet Connected' : 'Wallet Not Connected'}
+        <div className="space-y-3">
+          <h1 className="text-6xl font-black bg-gradient-to-r from-slate-800 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Solana Wallet
+          </h1>
+          <div className="flex items-center gap-4">
+            <div className={`w-4 h-4 rounded-full animate-pulse shadow-lg relative ${
+              connected ? 'bg-emerald-400 shadow-emerald-400/50' : 'bg-orange-400 shadow-orange-400/50'
+            }`}>
+              <div className={`absolute inset-0 w-4 h-4 rounded-full animate-ping opacity-20 ${
+                connected ? 'bg-emerald-400' : 'bg-orange-400'
+              }`}></div>
+            </div>
+            <p className={`text-xl font-bold ${
+              connected ? 'text-emerald-600' : 'text-orange-600'
+            }`}>
+              {connected ? '🟢 Wallet Connected' : '🟡 Wallet Not Connected'}
             </p>
           </div>
         </div>
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-4">
         <Button
           onClick={onShowWalletManagement}
           variant="outline"
           size="lg"
-          className="glass border border-white/30 hover:border-white/50 text-foreground hover:bg-white/20 backdrop-blur-md shadow-lg"
+          className="bg-gradient-to-r from-slate-50 to-gray-50 border-2 border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-100 backdrop-blur-md shadow-lg hover:shadow-xl font-bold px-6 py-6 rounded-2xl transition-all duration-300"
         >
-          <Settings className="w-5 h-5 mr-2" />
+          <Settings className="w-6 h-6 mr-2" />
           Wallet Management
         </Button>
         <WalletConnectionButton />

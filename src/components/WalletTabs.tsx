@@ -20,31 +20,31 @@ const tabs: Tab[] = [
 
 const WalletTabs = ({ activeTab, onTabChange }: WalletTabsProps) => {
   return (
-    <div className="flex space-x-2 glass border border-white/30 p-2 rounded-3xl shadow-lg">
+    <div className="bg-white/80 backdrop-blur-lg border border-slate-200 p-2 rounded-3xl shadow-xl">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
-          className={`flex-1 py-4 px-8 rounded-2xl font-semibold transition-all duration-300 text-lg relative group ${
+          className={`flex-1 py-5 px-8 rounded-2xl font-bold transition-all duration-300 text-lg relative group ${
             activeTab === tab.id
-              ? 'glass border border-white/40 text-primary shadow-lg'
-              : 'text-muted-foreground hover:text-foreground hover:bg-white/20'
+              ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-[1.02]'
+              : 'text-slate-600 hover:text-slate-800 hover:bg-slate-50/80'
           }`}
         >
-          <span className="flex items-center justify-center space-x-2">
+          <span className="flex items-center justify-center gap-3">
             <span>{tab.label}</span>
             {tab.count && (
-              <span className={`text-xs px-2 py-1 rounded-full font-bold border ${
+              <span className={`text-xs px-3 py-1.5 rounded-full font-bold border-2 transition-all duration-300 ${
                 activeTab === tab.id 
-                  ? 'bg-white/20 text-primary border-white/30' 
-                  : 'bg-white/10 text-muted-foreground border-white/20'
+                  ? 'bg-white/20 text-white border-white/30 shadow-lg' 
+                  : 'bg-slate-100 text-slate-600 border-slate-200'
               }`}>
                 {tab.count}
               </span>
             )}
           </span>
           {activeTab === tab.id && (
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-primary rounded-full"></div>
+            <div className="absolute inset-x-2 bottom-1 h-1 bg-white/50 rounded-full shadow-sm"></div>
           )}
         </button>
       ))}

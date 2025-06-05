@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowUp, ArrowDown, Copy, QrCode } from 'lucide-react';
+import { ArrowUp, ArrowDown, Copy, QrCode, Wallet, Zap } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface SendReceiveModalProps {
@@ -40,19 +40,30 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="pb-4">
-          <DialogTitle className="flex items-center space-x-3">
-            <div className="w-14 h-14 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
-              {mode === 'send' ? (
-                <ArrowUp className="w-7 h-7 text-primary" />
-              ) : (
-                <ArrowDown className="w-7 h-7 text-primary" />
-              )}
+      <DialogContent className="max-w-md bg-gradient-to-br from-white/95 to-slate-50/95 backdrop-blur-xl border-0 shadow-2xl">
+        <DialogHeader className="pb-6 space-y-4">
+          <DialogTitle className="flex items-center gap-4">
+            <div className="relative">
+              <div className={`w-16 h-16 rounded-3xl flex items-center justify-center shadow-xl animate-float ${
+                mode === 'send' 
+                  ? 'bg-gradient-to-br from-red-500 to-pink-600' 
+                  : 'bg-gradient-to-br from-emerald-500 to-green-600'
+              }`}>
+                {mode === 'send' ? (
+                  <ArrowUp className="w-8 h-8 text-white" />
+                ) : (
+                  <ArrowDown className="w-8 h-8 text-white" />
+                )}
+              </div>
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                <Zap className="w-3 h-3 text-white" />
+              </div>
             </div>
-            <div className="text-left min-w-0">
-              <h2 className="text-xl font-bold text-foreground capitalize">{mode} Crypto</h2>
-              <DialogDescription className="text-sm mt-1">
+            <div className="text-left">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent capitalize">
+                {mode} Crypto
+              </h2>
+              <DialogDescription className="text-base mt-1 text-slate-600 font-medium">
                 {mode === 'send' ? 'Send cryptocurrency to another wallet' : 'Receive cryptocurrency from others'}
               </DialogDescription>
             </div>
@@ -60,35 +71,35 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
         </DialogHeader>
 
         {mode === 'send' ? (
-          <div className="space-y-5">
-            <div>
-              <label className="block text-sm font-semibold text-foreground mb-2">
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide">
                 Recipient Address
               </label>
               <Input
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
                 placeholder="Enter wallet address"
-                className="h-11 rounded-xl bg-white/50 border border-white/50 focus:border-primary/50 text-sm"
+                className="h-12 rounded-2xl bg-white/80 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 text-sm font-medium shadow-sm"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-foreground mb-2">
+            <div className="space-y-3">
+              <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide">
                 Amount
               </label>
-              <div className="flex space-x-2">
+              <div className="flex gap-3">
                 <Input
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   type="number"
-                  className="h-11 rounded-xl bg-white/50 border border-white/50 focus:border-primary/50 text-sm flex-1"
+                  className="h-12 rounded-2xl bg-white/80 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 text-sm font-medium shadow-sm flex-1"
                 />
                 <select
                   value={selectedToken}
                   onChange={(e) => setSelectedToken(e.target.value)}
-                  className="h-11 bg-white/50 border border-white/50 rounded-xl px-3 text-foreground font-semibold backdrop-blur-sm focus:border-primary/50 focus:outline-none w-20 text-sm"
+                  className="h-12 bg-white/80 border border-slate-200 rounded-2xl px-4 text-slate-700 font-bold shadow-sm focus:border-blue-400 focus:ring-blue-400/20 focus:outline-none w-24 text-sm"
                 >
                   <option value="SOL">SOL</option>
                   <option value="USDC">USDC</option>
@@ -97,43 +108,54 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-4">
               <Button
                 onClick={handleSend}
-                className="w-full h-11 text-sm rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg transition-all duration-200"
+                className="w-full h-12 text-base rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                 disabled={!amount || !recipient}
               >
+                <Wallet className="w-5 h-5 mr-2" />
                 Send {selectedToken}
               </Button>
             </div>
           </div>
         ) : (
-          <div className="space-y-5">
-            <div className="text-center">
-              <div className="w-40 h-40 bg-white/50 border border-white/50 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
-                <QrCode className="w-24 h-24 text-muted-foreground" />
+          <div className="space-y-6">
+            <div className="text-center space-y-4">
+              <div className="relative mx-auto">
+                <div className="w-48 h-48 bg-gradient-to-br from-emerald-50 to-green-100 border-2 border-emerald-200 rounded-3xl mx-auto flex items-center justify-center shadow-xl">
+                  <QrCode className="w-32 h-32 text-emerald-600" />
+                </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Scan this QR code or copy the address below
-              </p>
+              <div className="space-y-2">
+                <p className="text-lg font-bold text-slate-700">
+                  Scan QR Code
+                </p>
+                <p className="text-sm text-slate-600 font-medium">
+                  Or copy the address below to receive payments
+                </p>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-foreground mb-2">
+            <div className="space-y-3">
+              <label className="block text-sm font-bold text-slate-700 uppercase tracking-wide">
                 Your Wallet Address
               </label>
-              <div className="flex space-x-2">
+              <div className="flex gap-3">
                 <Input
                   value={walletAddress}
                   readOnly
-                  className="bg-white/50 border border-white/50 h-11 rounded-xl text-foreground font-mono text-xs backdrop-blur-sm flex-1"
+                  className="bg-white/80 border border-slate-200 h-12 rounded-2xl text-slate-700 font-mono text-sm shadow-sm flex-1"
                 />
                 <Button
                   onClick={handleCopyAddress}
                   variant="outline"
-                  className="h-11 px-3 rounded-xl bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 flex-shrink-0"
+                  className="h-12 px-4 rounded-2xl bg-white/80 border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-200 shadow-sm"
                 >
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-5 h-5 text-emerald-600" />
                 </Button>
               </div>
             </div>
