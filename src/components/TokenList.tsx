@@ -1,7 +1,9 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { TrendingUp, TrendingDown, Plus } from 'lucide-react';
+import ImportToken from './ImportToken';
 
 interface Token {
   symbol: string;
@@ -10,11 +12,15 @@ interface Token {
   usdValue: number;
   change24h: number;
   icon: string;
+  address?: string;
 }
 
 const TokenList = () => {
+  const [showImport, setShowImport] = useState(false);
+  const [importedTokens, setImportedTokens] = useState<any[]>([]);
+
   // Mock token data - in real app this would come from Solana token accounts
-  const tokens: Token[] = [
+  const defaultTokens: Token[] = [
     {
       symbol: 'SOL',
       name: 'Solana',
@@ -41,10 +47,58 @@ const TokenList = () => {
     }
   ];
 
+  useEffect(() => {
+    loadImportedTokens();
+  }, []);
+
+  const loadImportedTokens = () => {
+    const stored = JSON.parse(localStorage.getItem('imported_tokens') || '[]');
+    setImportedTokens(stored);
+  };
+
+  const handleTokenImported = (token: any) => {
+    loadImportedTokens();
+    setShowImport(false);
+  };
+
+  const allTokens = [
+    ...defaultTokens,
+    ...importedTokens.map(token => ({
+      symbol: token.symbol,
+      name: token.name,
+      balance: 0, // In real app, would fetch actual balance
+      usdValue: 0,
+      change24h: 0,
+      icon: token.symbol.charAt(0),
+      address: token.address
+    }))
+  ];
+
+  if (showImport) {
+    return (
+      <ImportToken
+        onBack={() => setShowImport(false)}
+        onTokenImported={handleTokenImported}
+      />
+    );
+  }
+
   return (
     <div className="space-y-4">
-      {tokens.map((token, index) => (
-        <Card key={token.symbol} className="token-card group p-8 hover:scale-[1.01] transition-all duration-300">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-slate-900">Your Tokens</h3>
+        <Button
+          onClick={() => setShowImport(true)}
+          variant="outline"
+          className="border-blue-200 text-blue-600 hover:bg-blue-50"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Import Token
+        </Button>
+      </div>
+      
+      {allTokens.map((token, index) => (
+        <Card key={`${token.symbol}-${index}`} className="token-card group p-8 hover:scale-[1.01] transition-all duration-300">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:shadow-xl transition-all duration-300">
@@ -53,6 +107,11 @@ const TokenList = () => {
               <div>
                 <h3 className="font-bold text-slate-900 text-2xl">{token.symbol}</h3>
                 <p className="text-slate-500 text-base font-medium">{token.name}</p>
+                {token.address && (
+                  <p className="text-xs text-slate-400 font-mono mt-1">
+                    {token.address.slice(0, 8)}...{token.address.slice(-8)}
+                  </p>
+                )}
               </div>
             </div>
             
