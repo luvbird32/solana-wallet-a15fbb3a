@@ -103,6 +103,7 @@ const WalletDashboard = () => {
           <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
             <SendReceiveModal
               mode={sendReceiveMode}
+              isOpen={showSendReceive}
               onClose={() => setShowSendReceive(false)}
             />
           </Suspense>
