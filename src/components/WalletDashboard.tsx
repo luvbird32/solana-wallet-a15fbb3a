@@ -11,7 +11,6 @@ import TransactionHistory from './TransactionHistory';
 import SendReceiveModal from './SendReceiveModal';
 import SwapInterface from './SwapInterface';
 import WalletManagement from './WalletManagement';
-import SmartContractInterface from './SmartContractInterface';
 
 const WalletDashboard = () => {
   const { connected } = useWallet();
@@ -19,7 +18,6 @@ const WalletDashboard = () => {
   const [showSendReceive, setShowSendReceive] = useState(false);
   const [showSwap, setShowSwap] = useState(false);
   const [showWalletManagement, setShowWalletManagement] = useState(false);
-  const [showSmartContracts, setShowSmartContracts] = useState(false);
   const [sendReceiveMode, setSendReceiveMode] = useState<'send' | 'receive'>('send');
 
   // Mock data - in real app this would come from connected wallet
@@ -47,22 +45,11 @@ const WalletDashboard = () => {
     );
   }
 
-  if (showSmartContracts) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
-        <div className="max-w-6xl mx-auto">
-          <SmartContractInterface onBack={() => setShowSmartContracts(false)} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <WalletHeader
           onShowWalletManagement={() => setShowWalletManagement(true)}
-          onShowSmartContracts={() => setShowSmartContracts(true)}
         />
 
         {!connected ? (
@@ -89,7 +76,6 @@ const WalletDashboard = () => {
               {activeTab === 'tokens' && <TokenList />}
               {activeTab === 'nfts' && <NFTGallery />}
               {activeTab === 'history' && <TransactionHistory />}
-              {activeTab === 'contracts' && <SmartContractInterface onBack={() => setActiveTab('tokens')} />}
             </div>
           </>
         )}

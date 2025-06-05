@@ -14,8 +14,7 @@ interface WalletTabsProps {
 const tabs: Tab[] = [
   { id: 'tokens', label: 'Tokens' },
   { id: 'nfts', label: 'NFTs' },
-  { id: 'history', label: 'History' },
-  { id: 'contracts', label: 'Contracts' }
+  { id: 'history', label: 'History' }
 ];
 
 const WalletTabs = ({ activeTab, onTabChange }: WalletTabsProps) => {

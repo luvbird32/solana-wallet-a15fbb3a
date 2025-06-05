@@ -7,10 +7,9 @@ import WalletConnectionButton from './WalletConnectionButton';
 
 interface WalletHeaderProps {
   onShowWalletManagement: () => void;
-  onShowSmartContracts: () => void;
 }
 
-const WalletHeader = ({ onShowWalletManagement, onShowSmartContracts }: WalletHeaderProps) => {
+const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
   const { connected } = useWallet();
 
   return (
@@ -30,14 +29,6 @@ const WalletHeader = ({ onShowWalletManagement, onShowSmartContracts }: WalletHe
         </div>
       </div>
       <div className="flex items-center space-x-3">
-        <Button
-          onClick={onShowSmartContracts}
-          variant="outline"
-          className="border-purple-200 text-purple-600 hover:bg-purple-50"
-        >
-          <Settings className="w-4 h-4 mr-2" />
-          Smart Contracts
-        </Button>
         <Button
           onClick={onShowWalletManagement}
           variant="outline"
