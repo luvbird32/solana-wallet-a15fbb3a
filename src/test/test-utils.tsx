@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Testing utilities and custom render functions
  * @description Provides custom render function with all necessary providers
@@ -6,8 +5,7 @@
  */
 
 import React, { ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
-import { screen, fireEvent } from '@testing-library/dom';
+import { render, RenderOptions, screen, fireEvent } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { WalletStateProvider } from '@/contexts/WalletStateContext';
