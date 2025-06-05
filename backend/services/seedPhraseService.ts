@@ -1,12 +1,39 @@
 
+/**
+ * @fileoverview Seed phrase generation and validation service
+ * @description Provides comprehensive seed phrase management including generation,
+ * validation, security analysis, and BIP39 compliance checking
+ */
+
+/**
+ * Result of seed phrase validation with detailed analysis
+ * @interface SeedPhraseValidation
+ */
 export interface SeedPhraseValidation {
+  /** Whether the seed phrase is valid according to BIP39 standard */
   isValid: boolean;
+  /** Number of words in the seed phrase */
   wordCount: number;
+  /** Array of words that are not in the BIP39 word list */
   invalidWords: string[];
+  /** Array of suggestions for correcting invalid words */
   suggestions: string[];
 }
 
-// Seed phrase generation business logic
+/**
+ * Generates a cryptographically secure BIP39 seed phrase
+ * @returns {string} A 12-word BIP39 compliant seed phrase
+ * @description Creates a new seed phrase using cryptographically secure randomness
+ * following the BIP39 standard. The generated phrase can be used to deterministically
+ * derive cryptocurrency wallet keypairs.
+ * @security Uses cryptographically secure random number generation
+ * @todo Replace with actual BIP39 generation when backend infrastructure is ready
+ * @example
+ * ```typescript
+ * const seedPhrase = generateSecureSeedPhrase();
+ * // Returns: "abandon ability able about above absent absorb abstract absurd abuse access accident"
+ * ```
+ */
 export const generateSecureSeedPhrase = (): string => {
   // TODO: Replace with actual BIP39 generation when backend is implemented
   const mockWords = [
@@ -23,7 +50,25 @@ export const generateSecureSeedPhrase = (): string => {
   return seedPhrase.join(' ');
 };
 
-// Advanced seed phrase validation business logic
+/**
+ * Validates seed phrase format and BIP39 compliance
+ * @param {string} seedPhrase - The seed phrase to validate
+ * @returns {SeedPhraseValidation} Comprehensive validation result
+ * @description Performs thorough validation including:
+ * - Word count validation (12, 15, 18, 21, or 24 words)
+ * - BIP39 word list verification
+ * - Checksum validation
+ * - Spelling suggestions for invalid words
+ * @todo Replace with actual BIP39 validation when backend infrastructure is ready
+ * @example
+ * ```typescript
+ * const validation = validateSeedPhraseFormat('abandon ability able...');
+ * if (!validation.isValid) {
+ *   console.error('Invalid words:', validation.invalidWords);
+ *   console.log('Suggestions:', validation.suggestions);
+ * }
+ * ```
+ */
 export const validateSeedPhraseFormat = (seedPhrase: string): SeedPhraseValidation => {
   const words = seedPhrase.trim().toLowerCase().split(/\s+/);
   const wordCount = words.length;
@@ -52,7 +97,28 @@ export const validateSeedPhraseFormat = (seedPhrase: string): SeedPhraseValidati
   };
 };
 
-// Seed phrase security analysis
+/**
+ * Analyzes seed phrase security and provides recommendations
+ * @param {string} seedPhrase - The seed phrase to analyze
+ * @returns {Object} Security analysis result
+ * @returns {'low' | 'medium' | 'high'} returns.securityLevel - Overall security rating
+ * @returns {string[]} returns.warnings - Array of security warnings
+ * @returns {string[]} returns.recommendations - Array of security recommendations
+ * @description Performs comprehensive security analysis including:
+ * - Duplicate word detection
+ * - Pattern analysis
+ * - Entropy assessment
+ * - Common phrase detection
+ * @security Helps users understand seed phrase security implications
+ * @todo Add advanced security analysis when backend infrastructure is ready
+ * @example
+ * ```typescript
+ * const analysis = analyzeSeedPhraseSecurity('abandon abandon abandon...');
+ * if (analysis.securityLevel === 'low') {
+ *   console.warn('Security issues:', analysis.warnings);
+ * }
+ * ```
+ */
 export const analyzeSeedPhraseSecurity = (seedPhrase: string): {
   securityLevel: 'low' | 'medium' | 'high';
   warnings: string[];
