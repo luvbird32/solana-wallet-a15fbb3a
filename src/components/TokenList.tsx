@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, Plus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import ImportToken from './ImportToken';
+import { useTokenInteractions } from '@/hooks/useTokenInteractions';
 
 interface Token {
   symbol: string;
@@ -50,6 +51,7 @@ const fetchTokenBalances = async (): Promise<Token[]> => {
 const TokenList = () => {
   const [showImport, setShowImport] = useState(false);
   const [importedTokens, setImportedTokens] = useState<any[]>([]);
+  const { handleTokenClick } = useTokenInteractions();
 
   // Use React Query for caching token data
   const { data: defaultTokens = [], isLoading } = useQuery({
@@ -71,12 +73,6 @@ const TokenList = () => {
   const handleTokenImported = (token: any) => {
     loadImportedTokens();
     setShowImport(false);
-  };
-
-  const handleTokenClick = (token: Token) => {
-    console.log('Token clicked:', token);
-    // Add your click handling logic here
-    // For example: navigate to token details, show token actions, etc.
   };
 
   // Memoize the combined tokens list to avoid unnecessary recalculations
