@@ -40,19 +40,19 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-gradient-to-br from-white/95 to-slate-50/95 backdrop-blur-xl border-0 shadow-2xl">
+      <DialogContent className="max-w-md bg-white/95 backdrop-blur-xl border-0 shadow-2xl">
         <DialogHeader className="pb-6 space-y-4">
           <DialogTitle className="flex items-center gap-4">
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl flex items-center justify-center text-2xl font-bold shadow-xl animate-float">
+              <div className="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center text-2xl font-bold text-white shadow-xl animate-float">
                 {token.icon}
               </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
                 <Sparkles className="w-3 h-3 text-white" />
               </div>
             </div>
             <div className="text-left">
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-bold text-slate-800">
                 {token.symbol}
               </h2>
               <DialogDescription className="text-base mt-1 text-slate-600 font-medium">
@@ -64,11 +64,11 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
 
         <div className="space-y-6">
           {/* Enhanced Balance Card */}
-          <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+          <Card className="bg-blue-50 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
             <CardContent className="p-6">
               <div className="text-center space-y-3">
                 <div className="space-y-1">
-                  <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <p className="text-4xl font-bold text-blue-600">
                     {token.balance.toFixed(2)}
                   </p>
                   <p className="text-lg font-semibold text-slate-600">{token.symbol}</p>
@@ -96,7 +96,7 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
 
           {/* Enhanced Token Address */}
           {token.address && (
-            <Card className="bg-gradient-to-r from-slate-50 to-gray-50 border border-slate-200 shadow-md">
+            <Card className="bg-slate-50 border border-slate-200 shadow-md">
               <CardContent className="p-5">
                 <div className="space-y-3">
                   <p className="font-bold text-slate-700 text-sm uppercase tracking-wide">Token Address</p>
@@ -122,7 +122,7 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
           <div className="grid grid-cols-3 gap-3 pt-2">
             <Button 
               variant="outline" 
-              className="flex flex-col items-center gap-2 h-20 bg-gradient-to-b from-white to-slate-50 border-slate-200 hover:from-blue-50 hover:to-blue-100 hover:border-blue-300 transition-all duration-300 shadow-sm hover:shadow-md group"
+              className="flex flex-col items-center gap-2 h-20 bg-white border-slate-200 hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 shadow-sm hover:shadow-md group"
               onClick={() => onAction('send', token)}
             >
               <Send className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform duration-200" />
@@ -130,7 +130,7 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
             </Button>
             <Button 
               variant="outline" 
-              className="flex flex-col items-center gap-2 h-20 bg-gradient-to-b from-white to-slate-50 border-slate-200 hover:from-emerald-50 hover:to-emerald-100 hover:border-emerald-300 transition-all duration-300 shadow-sm hover:shadow-md group"
+              className="flex flex-col items-center gap-2 h-20 bg-white border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 shadow-sm hover:shadow-md group"
               onClick={() => onAction('receive', token)}
             >
               <ArrowDownToLine className="w-5 h-5 text-emerald-600 group-hover:scale-110 transition-transform duration-200" />
@@ -138,7 +138,7 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
             </Button>
             <Button 
               variant="outline" 
-              className="flex flex-col items-center gap-2 h-20 bg-gradient-to-b from-white to-slate-50 border-slate-200 hover:from-purple-50 hover:to-purple-100 hover:border-purple-300 transition-all duration-300 shadow-sm hover:shadow-md group"
+              className="flex flex-col items-center gap-2 h-20 bg-white border-slate-200 hover:bg-purple-50 hover:border-purple-300 transition-all duration-300 shadow-sm hover:shadow-md group"
               onClick={() => onAction('swap', token)}
             >
               <ArrowUpDown className="w-5 h-5 text-purple-600 group-hover:scale-110 transition-transform duration-200" />

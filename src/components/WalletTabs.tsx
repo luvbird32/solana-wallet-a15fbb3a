@@ -27,7 +27,7 @@ const WalletTabs = ({ activeTab, onTabChange }: WalletTabsProps) => {
           onClick={() => onTabChange(tab.id)}
           className={`flex-1 py-5 px-8 rounded-2xl font-bold transition-all duration-300 text-lg relative group ${
             activeTab === tab.id
-              ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-[1.02]'
+              ? 'bg-blue-600 text-white shadow-lg transform scale-[1.02]'
               : 'text-slate-600 hover:text-slate-800 hover:bg-slate-50/80'
           }`}
         >

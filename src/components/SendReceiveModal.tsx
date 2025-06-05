@@ -40,27 +40,27 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-gradient-to-br from-white/95 to-slate-50/95 backdrop-blur-xl border-0 shadow-2xl">
+      <DialogContent className="max-w-md bg-white/95 backdrop-blur-xl border-0 shadow-2xl">
         <DialogHeader className="pb-6 space-y-4">
           <DialogTitle className="flex items-center gap-4">
             <div className="relative">
-              <div className={`w-16 h-16 rounded-3xl flex items-center justify-center shadow-xl animate-float ${
+              <div className={`w-16 h-16 rounded-3xl flex items-center justify-center shadow-xl animate-float text-white ${
                 mode === 'send' 
-                  ? 'bg-gradient-to-br from-red-500 to-pink-600' 
-                  : 'bg-gradient-to-br from-emerald-500 to-green-600'
+                  ? 'bg-red-500' 
+                  : 'bg-emerald-500'
               }`}>
                 {mode === 'send' ? (
-                  <ArrowUp className="w-8 h-8 text-white" />
+                  <ArrowUp className="w-8 h-8" />
                 ) : (
-                  <ArrowDown className="w-8 h-8 text-white" />
+                  <ArrowDown className="w-8 h-8" />
                 )}
               </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
                 <Zap className="w-3 h-3 text-white" />
               </div>
             </div>
             <div className="text-left">
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent capitalize">
+              <h2 className="text-2xl font-bold text-slate-800 capitalize">
                 {mode} Crypto
               </h2>
               <DialogDescription className="text-base mt-1 text-slate-600 font-medium">
@@ -111,7 +111,7 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
             <div className="pt-4">
               <Button
                 onClick={handleSend}
-                className="w-full h-12 text-base rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                className="w-full h-12 text-base rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                 disabled={!amount || !recipient}
               >
                 <Wallet className="w-5 h-5 mr-2" />
@@ -123,10 +123,10 @@ const SendReceiveModal = ({ mode, isOpen, onClose }: SendReceiveModalProps) => {
           <div className="space-y-6">
             <div className="text-center space-y-4">
               <div className="relative mx-auto">
-                <div className="w-48 h-48 bg-gradient-to-br from-emerald-50 to-green-100 border-2 border-emerald-200 rounded-3xl mx-auto flex items-center justify-center shadow-xl">
+                <div className="w-48 h-48 bg-emerald-50 border-2 border-emerald-200 rounded-3xl mx-auto flex items-center justify-center shadow-xl">
                   <QrCode className="w-32 h-32 text-emerald-600" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
               </div>
