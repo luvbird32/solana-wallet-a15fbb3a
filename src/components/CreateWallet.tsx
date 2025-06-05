@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Copy, RefreshCw, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import { generateSeedPhrase, createWalletFromSeed, saveWalletToStorage, WalletAccount } from '@/utils/walletUtils';
+import { generateSeedPhrase, createWalletFromSeed, saveWalletToStorage } from '@/utils/walletUtils';
+import { WalletAccount } from '@/types/wallet';
 import { useToast } from '@/hooks/use-toast';
 
 interface CreateWalletProps {
