@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen } from '@testing-library/dom';
+import { screen } from '@testing-library/react';
 import { render, createMockWallet } from '@/test/test-utils';
 import WalletConnectionButton from '@/components/WalletConnectionButton';
 import * as walletHook from '@/hooks/useWallet';
