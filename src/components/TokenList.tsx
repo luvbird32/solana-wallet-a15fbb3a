@@ -43,7 +43,7 @@ const TokenList = () => {
   return (
     <div className="space-y-4">
       {tokens.map((token, index) => (
-        <Card key={token.symbol} className="token-card p-6">
+        <Card key={token.symbol} className="token-card group p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-5">
               <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">

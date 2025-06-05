@@ -46,7 +46,7 @@ const NFTGallery = () => {
   return (
     <div className="grid grid-cols-2 gap-6">
       {nfts.map((nft) => (
-        <Card key={nft.id} className="nft-card p-4 group">
+        <Card key={nft.id} className="nft-card group p-4">
           <div className="aspect-square rounded-xl overflow-hidden mb-4 border border-white/10">
             <img
               src={nft.image}
