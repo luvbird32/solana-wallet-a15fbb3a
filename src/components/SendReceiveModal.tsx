@@ -20,34 +20,32 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(walletAddress);
-    // In real app, show toast notification
     console.log('Address copied to clipboard');
   };
 
   const handleSend = () => {
-    // In real app, this would initiate a Solana transaction
     console.log('Sending:', { amount, recipient, token: selectedToken });
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="bg-white p-8 w-full max-w-md animate-fade-in shadow-2xl rounded-2xl">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <Card className="glass border border-white/30 p-8 w-full max-w-md shadow-2xl rounded-3xl backdrop-blur-xl">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 glass border border-white/30 rounded-2xl flex items-center justify-center shadow-lg">
               {mode === 'send' ? (
-                <ArrowUp className="w-6 h-6 text-white" />
+                <ArrowUp className="w-8 h-8 text-primary" />
               ) : (
-                <ArrowDown className="w-6 h-6 text-white" />
+                <ArrowDown className="w-8 h-8 text-primary" />
               )}
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 capitalize">{mode} Crypto</h2>
+            <h2 className="text-3xl font-bold text-foreground capitalize">{mode} Crypto</h2>
           </div>
           <Button
             onClick={onClose}
             variant="ghost"
-            className="text-slate-400 hover:text-slate-600 text-xl"
+            className="text-muted-foreground hover:text-foreground text-xl glass border border-white/20 hover:border-white/40 p-2 rounded-xl"
           >
             ✕
           </Button>
@@ -56,19 +54,19 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
         {mode === 'send' ? (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-base font-semibold text-foreground mb-3">
                 Recipient Address
               </label>
               <Input
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
                 placeholder="Enter wallet address"
-                className="py-3 rounded-xl"
+                className="py-4 rounded-xl glass border border-white/30 focus:border-white/50 text-base"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-base font-semibold text-foreground mb-3">
                 Amount
               </label>
               <div className="flex space-x-3">
@@ -77,12 +75,12 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   type="number"
-                  className="py-3 rounded-xl"
+                  className="py-4 rounded-xl glass border border-white/30 focus:border-white/50 text-base"
                 />
                 <select
                   value={selectedToken}
                   onChange={(e) => setSelectedToken(e.target.value)}
-                  className="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 font-medium"
+                  className="glass border border-white/30 rounded-xl px-4 py-4 text-foreground font-semibold backdrop-blur-xl focus:border-white/50 focus:outline-none"
                 >
                   <option value="SOL">SOL</option>
                   <option value="USDC">USDC</option>
@@ -93,7 +91,7 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
 
             <Button
               onClick={handleSend}
-              className="w-full wallet-button py-4 text-lg rounded-xl"
+              className="w-full py-4 text-lg rounded-xl glass border border-white/40 hover:border-white/60 bg-primary/90 hover:bg-primary text-primary-foreground font-semibold shadow-xl"
               disabled={!amount || !recipient}
             >
               Send {selectedToken}
@@ -102,28 +100,28 @@ const SendReceiveModal = ({ mode, onClose }: SendReceiveModalProps) => {
         ) : (
           <div className="space-y-6">
             <div className="text-center">
-              <div className="w-48 h-48 bg-slate-100 rounded-2xl mx-auto mb-4 flex items-center justify-center border-2 border-slate-200">
-                <QrCode className="w-32 h-32 text-slate-400" />
+              <div className="w-56 h-56 glass border border-white/30 rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-xl">
+                <QrCode className="w-40 h-40 text-muted-foreground" />
               </div>
-              <p className="text-slate-600 text-lg mb-4">
+              <p className="text-lg text-muted-foreground mb-6">
                 Scan this QR code or copy the address below
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-base font-semibold text-foreground mb-3">
                 Your Wallet Address
               </label>
               <div className="flex space-x-3">
                 <Input
                   value={walletAddress}
                   readOnly
-                  className="bg-slate-50 py-3 rounded-xl text-slate-700 font-mono text-sm"
+                  className="glass border border-white/30 py-4 rounded-xl text-foreground font-mono text-sm backdrop-blur-xl"
                 />
                 <Button
                   onClick={handleCopyAddress}
                   variant="outline"
-                  className="px-4 py-3 rounded-xl"
+                  className="px-4 py-4 rounded-xl glass border border-white/30 hover:border-white/50 hover:bg-white/10"
                 >
                   <Copy className="w-5 h-5" />
                 </Button>
