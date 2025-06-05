@@ -1,73 +1,73 @@
-# Welcome to your Lovable project
 
-## Project info
+# Solana Wallet - Open Source Project
 
-**URL**: https://lovable.dev/projects/f9083b48-6012-4856-b08c-1859bae04ba8
+Welcome to the Solana Wallet project! This is a modern, user-friendly wallet application for the Solana blockchain that anyone can use, contribute to, or learn from.
 
-## How can I edit this code?
+## 🌟 What This Project Does
 
-There are several ways of editing your application.
+This wallet application helps you:
+- Connect to your Solana wallet (Phantom, Solflare, Backpack)
+- View your token balances and portfolio
+- Search and add custom tokens
+- Manage multiple wallet accounts
+- Interact with the Solana blockchain safely
 
-**Use Lovable**
+## 🚀 Quick Start
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f9083b48-6012-4856-b08c-1859bae04ba8) and start prompting.
+### For Users
+1. **Visit the Live App**: [Your App URL](https://lovable.dev/projects/f9083b48-6012-4856-b08c-1859bae04ba8)
+2. **Install a Solana Wallet**: Get [Phantom](https://phantom.app/), [Solflare](https://solflare.com/), or [Backpack](https://backpack.app/)
+3. **Connect & Explore**: Click "Connect Wallet" and start managing your tokens!
 
-Changes made via Lovable will be committed automatically to this repo.
+### For Developers
+Want to run this locally or contribute? Check out our [Development Guide](docs/DEVELOPMENT.md).
 
-**Use your preferred IDE**
+## 🏗️ Project Structure
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+├── src/                    # Frontend application code
+├── backend/                # Business logic and services
+├── docs/                   # Documentation and guides
+└── public/                 # Static assets
 ```
 
-**Edit a file directly in GitHub**
+## 🤝 How to Contribute
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+We welcome contributions from everyone! Here's how you can help:
 
-**Use GitHub Codespaces**
+1. **Report Issues**: Found a bug? [Open an issue](link-to-issues)
+2. **Suggest Features**: Have an idea? We'd love to hear it!
+3. **Submit Code**: Check our [Contributing Guide](docs/CONTRIBUTING.md)
+4. **Improve Docs**: Help make our documentation better
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📚 Documentation
 
-## What technologies are used for this project?
+- [User Guide](docs/USER_GUIDE.md) - How to use the wallet
+- [Developer Guide](docs/DEVELOPMENT.md) - Setup and development
+- [API Reference](docs/API.md) - Technical documentation
+- [Contributing Guide](docs/CONTRIBUTING.md) - How to contribute
 
-This project is built with:
+## 🛠️ Built With
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Frontend**: React + TypeScript for a smooth user experience
+- **Styling**: Tailwind CSS for beautiful, responsive design
+- **Blockchain**: Solana Web3.js for blockchain interactions
+- **UI Components**: Shadcn/ui for consistent, accessible components
 
-## How can I deploy this project?
+## 📄 License
 
-Simply open [Lovable](https://lovable.dev/projects/f9083b48-6012-4856-b08c-1859bae04ba8) and click on Share -> Publish.
+This project is open source and available under the [MIT License](LICENSE).
 
-## Can I connect a custom domain to my Lovable project?
+## 🆘 Need Help?
 
-Yes, you can!
+- **Documentation**: Check our [docs folder](docs/)
+- **Community**: Join our discussions
+- **Issues**: Report bugs or request features
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🙏 Acknowledgments
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Thanks to all contributors who help make this project better!
+
+---
+
+**Star ⭐ this repo if you find it helpful!**
