@@ -56,7 +56,7 @@ const TokenList = () => {
     queryKey: ['token-balances'],
     queryFn: fetchTokenBalances,
     staleTime: 30 * 1000, // Data is fresh for 30 seconds
-    cacheTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
+    gcTime: 5 * 60 * 1000, // Keep in cache for 5 minutes
   });
 
   useEffect(() => {
