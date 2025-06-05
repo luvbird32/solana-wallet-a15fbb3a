@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Testing utilities and custom render functions
  * @description Provides custom render function with all necessary providers
@@ -11,8 +12,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { WalletStateProvider } from '@/contexts/WalletStateContext';
 import { vi } from 'vitest';
 
-// Import screen and fireEvent from testing library
-import { screen, fireEvent } from '@testing-library/react';
+// Import screen and fireEvent from testing library using require for compatibility
+const { screen, fireEvent } = require('@testing-library/react');
 
 /**
  * Custom render options extending React Testing Library's RenderOptions
