@@ -10,24 +10,36 @@ interface WalletConnectionPromptProps {
 
 const WalletConnectionPrompt = ({ onShowWalletManagement }: WalletConnectionPromptProps) => {
   return (
-    <Card className="p-12 border-0 shadow-xl bg-gradient-to-br from-white via-white to-blue-50/50 rounded-3xl text-center">
-      <div className="space-y-6">
-        <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto">
-          <Wallet className="w-12 h-12 text-blue-600" />
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <Card className="p-16 border-0 shadow-2xl bg-gradient-to-br from-white via-white to-surface rounded-3xl text-center max-w-2xl transform hover:scale-[1.02] transition-all duration-500">
+        <div className="space-y-8">
+          <div className="w-32 h-32 wallet-gradient rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-primary/30 animate-float">
+            <Wallet className="w-16 h-16 text-white" />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-4xl font-bold gradient-text">Connect Your Wallet</h2>
+            <p className="text-muted-foreground text-xl leading-relaxed">
+              Connect your Solana wallet to view your portfolio and start trading with the most secure and user-friendly experience
+            </p>
+          </div>
+          <div className="pt-6">
+            <WalletConnectionButton />
+          </div>
+          <div className="text-base text-muted-foreground space-y-3 pt-4">
+            <p className="font-medium">✨ Supported wallets: Phantom, Solflare, Backpack</p>
+            <p>
+              Or{' '}
+              <button 
+                onClick={onShowWalletManagement} 
+                className="text-primary hover:text-primary-hover font-semibold underline underline-offset-4 hover:underline-offset-8 transition-all duration-300"
+              >
+                create/import your own wallet
+              </button>
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">Connect Your Wallet</h2>
-          <p className="text-slate-600 text-lg">Connect your Solana wallet to view your portfolio and start trading</p>
-        </div>
-        <div className="pt-4">
-          <WalletConnectionButton />
-        </div>
-        <div className="text-sm text-slate-500 space-y-2">
-          <p>Supported wallets: Phantom, Solflare, Backpack</p>
-          <p>Or <button onClick={onShowWalletManagement} className="text-blue-600 hover:underline font-medium">create/import your own wallet</button></p>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 };
 
