@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Wallet, ArrowUp, ArrowDown, Repeat, TrendingUp } from 'lucide-react';
+import { Wallet, ArrowUp, ArrowDown, Repeat, TrendingUp, Settings } from 'lucide-react';
 import { useWallet } from '@/hooks/useWallet';
 import WalletConnectionButton from './WalletConnectionButton';
 import TokenList from './TokenList';
@@ -9,12 +10,14 @@ import NFTGallery from './NFTGallery';
 import TransactionHistory from './TransactionHistory';
 import SendReceiveModal from './SendReceiveModal';
 import SwapInterface from './SwapInterface';
+import WalletManagement from './WalletManagement';
 
 const WalletDashboard = () => {
   const { connected } = useWallet();
   const [activeTab, setActiveTab] = useState('tokens');
   const [showSendReceive, setShowSendReceive] = useState(false);
   const [showSwap, setShowSwap] = useState(false);
+  const [showWalletManagement, setShowWalletManagement] = useState(false);
   const [sendReceiveMode, setSendReceiveMode] = useState<'send' | 'receive'>('send');
 
   // Mock data - in real app this would come from connected wallet
@@ -31,6 +34,16 @@ const WalletDashboard = () => {
     setSendReceiveMode('receive');
     setShowSendReceive(true);
   };
+
+  if (showWalletManagement) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto">
+          <WalletManagement onBack={() => setShowWalletManagement(false)} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
@@ -51,7 +64,17 @@ const WalletDashboard = () => {
               </div>
             </div>
           </div>
-          <WalletConnectionButton />
+          <div className="flex items-center space-x-3">
+            <Button
+              onClick={() => setShowWalletManagement(true)}
+              variant="outline"
+              className="border-slate-200 text-slate-600 hover:bg-slate-50"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Wallet Management
+            </Button>
+            <WalletConnectionButton />
+          </div>
         </div>
 
         {/* Connection State */}
@@ -68,8 +91,9 @@ const WalletDashboard = () => {
               <div className="pt-4">
                 <WalletConnectionButton />
               </div>
-              <div className="text-sm text-slate-500">
+              <div className="text-sm text-slate-500 space-y-2">
                 <p>Supported wallets: Phantom, Solflare, Backpack</p>
+                <p>Or <button onClick={() => setShowWalletManagement(true)} className="text-blue-600 hover:underline font-medium">create/import your own wallet</button></p>
               </div>
             </div>
           </Card>
