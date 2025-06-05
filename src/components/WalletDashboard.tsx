@@ -1,6 +1,7 @@
-
 import React, { useState, lazy, Suspense } from 'react';
 import { useWallet } from '@/hooks/useWallet';
+import { useWalletState } from '@/contexts/WalletStateContext';
+import { useSolanaAPI } from '@/hooks/useSolanaAPI';
 import WalletHeader from './WalletHeader';
 import WalletBalance from './WalletBalance';
 import WalletTabs from './WalletTabs';
@@ -22,29 +23,19 @@ const WalletManagement = lazy(() => import('./WalletManagement'));
 
 const WalletDashboard = () => {
   const { connected, connecting } = useWallet();
-  const [activeTab, setActiveTab] = useState('tokens');
-  const [showSendReceive, setShowSendReceive] = useState(false);
-  const [showSwap, setShowSwap] = useState(false);
-  const [showWalletManagement, setShowWalletManagement] = useState(false);
-  const [sendReceiveMode, setSendReceiveMode] = useState<'send' | 'receive'>('send');
-
-  // Mock data - in real app this would come from connected wallet
-  const walletBalance = 45.67;
-  const usdValue = 2834.21;
-  const change24h = 5.23;
+  const { state, dispatch } = useWalletState();
+  const { balance, tokens, loading: apiLoading } = useSolanaAPI();
 
   const handleSendClick = () => {
-    setSendReceiveMode('send');
-    setShowSendReceive(true);
+    dispatch({ type: 'TOGGLE_SEND_RECEIVE', payload: { show: true, mode: 'send' } });
   };
 
   const handleReceiveClick = () => {
-    setSendReceiveMode('receive');
-    setShowSendReceive(true);
+    dispatch({ type: 'TOGGLE_SEND_RECEIVE', payload: { show: true, mode: 'receive' } });
   };
 
   const getTabLoadingSkeleton = () => {
-    switch (activeTab) {
+    switch (state.activeTab) {
       case 'tokens':
         return <TokensLoadingSkeleton />;
       case 'history':
@@ -54,13 +45,13 @@ const WalletDashboard = () => {
     }
   };
 
-  if (showWalletManagement) {
+  if (state.showWalletManagement) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
+      <div className="min-h-screen bg-gradient-to-br from-background via-surface to-surface-alt p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
           <ErrorBoundary>
             <Suspense fallback={<TokensLoadingSkeleton />}>
-              <WalletManagement onBack={() => setShowWalletManagement(false)} />
+              <WalletManagement onBack={() => dispatch({ type: 'TOGGLE_WALLET_MANAGEMENT', payload: false })} />
             </Suspense>
           </ErrorBoundary>
         </div>
@@ -69,10 +60,10 @@ const WalletDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-background via-surface to-surface-alt p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <WalletHeader
-          onShowWalletManagement={() => setShowWalletManagement(true)}
+          onShowWalletManagement={() => dispatch({ type: 'TOGGLE_WALLET_MANAGEMENT', payload: true })}
         />
 
         {connecting ? (
@@ -81,32 +72,32 @@ const WalletDashboard = () => {
           <ErrorBoundary>
             <Suspense fallback={<WalletConnectingLoader />}>
               <WalletConnectionPrompt
-                onShowWalletManagement={() => setShowWalletManagement(true)}
+                onShowWalletManagement={() => dispatch({ type: 'TOGGLE_WALLET_MANAGEMENT', payload: true })}
               />
             </Suspense>
           </ErrorBoundary>
         ) : (
           <>
             <WalletBalance
-              walletBalance={walletBalance}
-              usdValue={usdValue}
-              change24h={change24h}
+              walletBalance={balance?.sol || 0}
+              usdValue={balance?.usdValue || 0}
+              change24h={balance?.change24h || 0}
               onSendClick={handleSendClick}
               onReceiveClick={handleReceiveClick}
-              onSwapClick={() => setShowSwap(true)}
+              onSwapClick={() => dispatch({ type: 'TOGGLE_SWAP', payload: true })}
             />
 
             <WalletTabs
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
+              activeTab={state.activeTab}
+              onTabChange={(tab) => dispatch({ type: 'SET_ACTIVE_TAB', payload: tab })}
             />
 
             <div className="animate-fade-in">
               <ErrorBoundary>
                 <Suspense fallback={getTabLoadingSkeleton()}>
-                  {activeTab === 'tokens' && <TokenList />}
-                  {activeTab === 'nfts' && <NFTGallery />}
-                  {activeTab === 'history' && <TransactionHistory />}
+                  {state.activeTab === 'tokens' && <TokenList />}
+                  {state.activeTab === 'nfts' && <NFTGallery />}
+                  {state.activeTab === 'history' && <TransactionHistory />}
                 </Suspense>
               </ErrorBoundary>
             </div>
@@ -114,22 +105,22 @@ const WalletDashboard = () => {
         )}
 
         {/* Modals with error boundaries */}
-        {showSendReceive && (
+        {state.showSendReceive && (
           <ErrorBoundary>
             <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center" role="dialog" aria-label="Loading send/receive modal"><div className="bg-white p-8 rounded-lg shadow-xl"><WalletConnectingLoader /></div></div>}>
               <SendReceiveModal
-                mode={sendReceiveMode}
-                isOpen={showSendReceive}
-                onClose={() => setShowSendReceive(false)}
+                mode={state.sendReceiveMode}
+                isOpen={state.showSendReceive}
+                onClose={() => dispatch({ type: 'TOGGLE_SEND_RECEIVE', payload: { show: false } })}
               />
             </Suspense>
           </ErrorBoundary>
         )}
         
-        {showSwap && (
+        {state.showSwap && (
           <ErrorBoundary>
             <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center" role="dialog" aria-label="Loading swap interface"><div className="bg-white p-8 rounded-lg shadow-xl"><WalletConnectingLoader /></div></div>}>
-              <SwapInterface onClose={() => setShowSwap(false)} />
+              <SwapInterface onClose={() => dispatch({ type: 'TOGGLE_SWAP', payload: false })} />
             </Suspense>
           </ErrorBoundary>
         )}
