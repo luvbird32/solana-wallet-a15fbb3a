@@ -4,7 +4,12 @@ import { useWallet } from '@/hooks/useWallet';
 import WalletHeader from './WalletHeader';
 import WalletBalance from './WalletBalance';
 import WalletTabs from './WalletTabs';
-import { Skeleton } from '@/components/ui/skeleton';
+import ErrorBoundary from './ErrorBoundary';
+import { 
+  TokensLoadingSkeleton, 
+  TransactionLoadingSkeleton, 
+  WalletConnectingLoader 
+} from './WalletLoadingStates';
 
 // Lazy load heavy components
 const WalletConnectionPrompt = lazy(() => import('./WalletConnectionPrompt'));
@@ -15,28 +20,8 @@ const SendReceiveModal = lazy(() => import('./SendReceiveModal'));
 const SwapInterface = lazy(() => import('./SwapInterface'));
 const WalletManagement = lazy(() => import('./WalletManagement'));
 
-const ComponentSkeleton = () => (
-  <div className="space-y-4">
-    <Skeleton className="h-8 w-48" />
-    <div className="grid gap-4">
-      <Skeleton className="h-24 w-full" />
-      <Skeleton className="h-24 w-full" />
-      <Skeleton className="h-24 w-full" />
-    </div>
-  </div>
-);
-
-// Error boundary component for lazy loading
-const LazyErrorBoundary = ({ children, fallback }: { children: React.ReactNode; fallback: React.ReactNode }) => {
-  return (
-    <Suspense fallback={<ComponentSkeleton />}>
-      {children}
-    </Suspense>
-  );
-};
-
 const WalletDashboard = () => {
-  const { connected } = useWallet();
+  const { connected, connecting } = useWallet();
   const [activeTab, setActiveTab] = useState('tokens');
   const [showSendReceive, setShowSendReceive] = useState(false);
   const [showSwap, setShowSwap] = useState(false);
@@ -58,13 +43,26 @@ const WalletDashboard = () => {
     setShowSendReceive(true);
   };
 
+  const getTabLoadingSkeleton = () => {
+    switch (activeTab) {
+      case 'tokens':
+        return <TokensLoadingSkeleton />;
+      case 'history':
+        return <TransactionLoadingSkeleton />;
+      default:
+        return <TokensLoadingSkeleton />;
+    }
+  };
+
   if (showWalletManagement) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
-          <LazyErrorBoundary fallback={<ComponentSkeleton />}>
-            <WalletManagement onBack={() => setShowWalletManagement(false)} />
-          </LazyErrorBoundary>
+          <ErrorBoundary>
+            <Suspense fallback={<TokensLoadingSkeleton />}>
+              <WalletManagement onBack={() => setShowWalletManagement(false)} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
     );
@@ -77,12 +75,16 @@ const WalletDashboard = () => {
           onShowWalletManagement={() => setShowWalletManagement(true)}
         />
 
-        {!connected ? (
-          <LazyErrorBoundary fallback={<ComponentSkeleton />}>
-            <WalletConnectionPrompt
-              onShowWalletManagement={() => setShowWalletManagement(true)}
-            />
-          </LazyErrorBoundary>
+        {connecting ? (
+          <WalletConnectingLoader />
+        ) : !connected ? (
+          <ErrorBoundary>
+            <Suspense fallback={<WalletConnectingLoader />}>
+              <WalletConnectionPrompt
+                onShowWalletManagement={() => setShowWalletManagement(true)}
+              />
+            </Suspense>
+          </ErrorBoundary>
         ) : (
           <>
             <WalletBalance
@@ -100,30 +102,36 @@ const WalletDashboard = () => {
             />
 
             <div className="animate-fade-in">
-              <LazyErrorBoundary fallback={<ComponentSkeleton />}>
-                {activeTab === 'tokens' && <TokenList />}
-                {activeTab === 'nfts' && <NFTGallery />}
-                {activeTab === 'history' && <TransactionHistory />}
-              </LazyErrorBoundary>
+              <ErrorBoundary>
+                <Suspense fallback={getTabLoadingSkeleton()}>
+                  {activeTab === 'tokens' && <TokenList />}
+                  {activeTab === 'nfts' && <NFTGallery />}
+                  {activeTab === 'history' && <TransactionHistory />}
+                </Suspense>
+              </ErrorBoundary>
             </div>
           </>
         )}
 
-        {/* Modals with lazy loading */}
+        {/* Modals with error boundaries */}
         {showSendReceive && (
-          <LazyErrorBoundary fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
-            <SendReceiveModal
-              mode={sendReceiveMode}
-              isOpen={showSendReceive}
-              onClose={() => setShowSendReceive(false)}
-            />
-          </LazyErrorBoundary>
+          <ErrorBoundary>
+            <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center" role="dialog" aria-label="Loading send/receive modal"><div className="bg-white p-8 rounded-lg shadow-xl"><WalletConnectingLoader /></div></div>}>
+              <SendReceiveModal
+                mode={sendReceiveMode}
+                isOpen={showSendReceive}
+                onClose={() => setShowSendReceive(false)}
+              />
+            </Suspense>
+          </ErrorBoundary>
         )}
         
         {showSwap && (
-          <LazyErrorBoundary fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
-            <SwapInterface onClose={() => setShowSwap(false)} />
-          </LazyErrorBoundary>
+          <ErrorBoundary>
+            <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center" role="dialog" aria-label="Loading swap interface"><div className="bg-white p-8 rounded-lg shadow-xl"><WalletConnectingLoader /></div></div>}>
+              <SwapInterface onClose={() => setShowSwap(false)} />
+            </Suspense>
+          </ErrorBoundary>
         )}
       </div>
     </div>
