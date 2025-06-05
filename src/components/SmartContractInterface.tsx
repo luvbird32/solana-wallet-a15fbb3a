@@ -1,14 +1,13 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useWallet } from '@/hooks/useWallet';
 import { mockPrograms, solanaContract, ContractCall } from '@/utils/solanaPrograms';
 import { PublicKey } from '@solana/web3.js';
+import SmartContractHeader from './SmartContractHeader';
+import SmartContractExecution from './SmartContractExecution';
 import ContractList from './ContractList';
-import ContractParameters from './ContractParameters';
 
 interface SmartContractInterfaceProps {
   onBack: () => void;
@@ -40,9 +39,7 @@ const SmartContractInterface = ({ onBack }: SmartContractInterfaceProps) => {
 
     setLoading(true);
     try {
-      // Mock transaction execution
       const mockSignTransaction = async (tx: any) => {
-        // In real app, this would use the actual wallet adapter
         await new Promise(resolve => setTimeout(resolve, 2000));
         return tx;
       };
@@ -81,35 +78,21 @@ const SmartContractInterface = ({ onBack }: SmartContractInterfaceProps) => {
 
   if (selectedContract) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center space-x-4">
-          <Button variant="ghost" onClick={() => setSelectedContract(null)} className="p-2">
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <h2 className="text-2xl font-bold text-slate-900">{selectedContract.name}</h2>
-        </div>
-
-        <ContractParameters
-          contract={selectedContract}
-          accounts={accounts}
-          loading={loading}
-          connected={connected}
-          onAccountChange={handleAccountChange}
-          onExecuteContract={executeContract}
-          lastTransaction={lastTransaction}
-        />
-      </div>
+      <SmartContractExecution
+        contract={selectedContract}
+        accounts={accounts}
+        loading={loading}
+        onBack={() => setSelectedContract(null)}
+        onAccountChange={handleAccountChange}
+        onExecuteContract={executeContract}
+        lastTransaction={lastTransaction}
+      />
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-4">
-        <Button variant="ghost" onClick={onBack} className="p-2">
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <h2 className="text-2xl font-bold text-slate-900">Smart Contracts</h2>
-      </div>
+      <SmartContractHeader title="Smart Contracts" onBack={onBack} />
 
       <ContractList
         contracts={mockPrograms}
