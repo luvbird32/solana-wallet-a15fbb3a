@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -21,17 +20,61 @@ export default {
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',
+				'border-hover': 'hsl(var(--border-hover))',
 				input: 'hsl(var(--input))',
+				'input-focus': 'hsl(var(--input-focus))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				surface: 'hsl(var(--surface))',
+				'surface-alt': 'hsl(var(--surface-alt))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--primary-hover))',
+					active: 'hsl(var(--primary-active))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
+					hover: 'hsl(var(--secondary-hover))',
+					active: 'hsl(var(--secondary-active))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))',
+					hover: 'hsl(var(--success-hover))',
+					light: 'hsl(var(--success-light))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))',
+					hover: 'hsl(var(--warning-hover))',
+					light: 'hsl(var(--warning-light))'
+				},
+				error: {
+					DEFAULT: 'hsl(var(--error))',
+					foreground: 'hsl(var(--error-foreground))',
+					hover: 'hsl(var(--error-hover))',
+					light: 'hsl(var(--error-light))'
+				},
+				info: {
+					DEFAULT: 'hsl(var(--info))',
+					foreground: 'hsl(var(--info-foreground))',
+					hover: 'hsl(var(--info-hover))',
+					light: 'hsl(var(--info-light))'
+				},
+				neutral: {
+					50: 'hsl(var(--neutral-50))',
+					100: 'hsl(var(--neutral-100))',
+					200: 'hsl(var(--neutral-200))',
+					300: 'hsl(var(--neutral-300))',
+					400: 'hsl(var(--neutral-400))',
+					500: 'hsl(var(--neutral-500))',
+					600: 'hsl(var(--neutral-600))',
+					700: 'hsl(var(--neutral-700))',
+					800: 'hsl(var(--neutral-800))',
+					900: 'hsl(var(--neutral-900))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -67,7 +110,8 @@ export default {
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				xl: 'var(--radius-xl)'
 			},
 			keyframes: {
 				'accordion-down': {

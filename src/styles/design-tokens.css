@@ -1,0 +1,157 @@
+
+/* Design Tokens - Semantic color system for consistent theming */
+
+@layer base {
+  :root {
+    /* Base Colors */
+    --background: 255 255 255;
+    --foreground: 15 23 42;
+    --surface: 248 250 252;
+    --surface-alt: 241 245 249;
+
+    /* Primary Brand Colors */
+    --primary: 59 130 246;
+    --primary-foreground: 255 255 255;
+    --primary-hover: 37 99 235;
+    --primary-active: 29 78 216;
+
+    /* Secondary Colors */
+    --secondary: 148 163 184;
+    --secondary-foreground: 15 23 42;
+    --secondary-hover: 100 116 139;
+    --secondary-active: 71 85 105;
+
+    /* Semantic Status Colors */
+    --success: 34 197 94;
+    --success-foreground: 255 255 255;
+    --success-hover: 22 163 74;
+    --success-light: 220 252 231;
+
+    --warning: 245 158 11;
+    --warning-foreground: 255 255 255;
+    --warning-hover: 217 119 6;
+    --warning-light: 254 243 199;
+
+    --error: 239 68 68;
+    --error-foreground: 255 255 255;
+    --error-hover: 220 38 38;
+    --error-light: 254 226 226;
+
+    --info: 14 165 233;
+    --info-foreground: 255 255 255;
+    --info-hover: 2 132 199;
+    --info-light: 224 242 254;
+
+    /* Neutral Grays */
+    --neutral-50: 248 250 252;
+    --neutral-100: 241 245 249;
+    --neutral-200: 226 232 240;
+    --neutral-300: 203 213 225;
+    --neutral-400: 148 163 184;
+    --neutral-500: 100 116 139;
+    --neutral-600: 71 85 105;
+    --neutral-700: 51 65 85;
+    --neutral-800: 30 41 59;
+    --neutral-900: 15 23 42;
+
+    /* Wallet-specific tokens */
+    --wallet-gradient-from: 59 130 246;
+    --wallet-gradient-to: 37 99 235;
+    --wallet-balance-text: 15 23 42;
+    --wallet-card-bg: 255 255 255;
+    --wallet-card-border: 226 232 240;
+    --wallet-card-hover: 14 165 233;
+
+    /* Token-specific colors */
+    --token-card-bg: 255 255 255;
+    --token-card-border: 226 232 240;
+    --token-card-hover: 14 165 233;
+    --token-positive: 34 197 94;
+    --token-negative: 239 68 68;
+
+    /* Border and Input */
+    --border: 226 232 240;
+    --border-hover: 203 213 225;
+    --input: 226 232 240;
+    --input-focus: 59 130 246;
+    --ring: 59 130 246;
+
+    /* Component specific */
+    --card: 255 255 255;
+    --card-foreground: 15 23 42;
+    --popover: 255 255 255;
+    --popover-foreground: 15 23 42;
+    --muted: 248 250 252;
+    --muted-foreground: 100 116 139;
+    --accent: 59 130 246;
+    --accent-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+
+    /* Sidebar tokens */
+    --sidebar-background: 255 255 255;
+    --sidebar-foreground: 15 23 42;
+    --sidebar-primary: 59 130 246;
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 248 250 252;
+    --sidebar-accent-foreground: 15 23 42;
+    --sidebar-border: 226 232 240;
+    --sidebar-ring: 59 130 246;
+
+    /* Border radius system */
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+  }
+
+  /* Dark mode tokens */
+  .dark {
+    --background: 15 23 42;
+    --foreground: 248 250 252;
+    --surface: 30 41 59;
+    --surface-alt: 51 65 85;
+
+    --primary: 59 130 246;
+    --primary-foreground: 255 255 255;
+    --primary-hover: 37 99 235;
+    --primary-active: 29 78 216;
+
+    --secondary: 71 85 105;
+    --secondary-foreground: 248 250 252;
+    --secondary-hover: 100 116 139;
+    --secondary-active: 148 163 184;
+
+    --success: 34 197 94;
+    --success-light: 6 78 59;
+    --warning: 245 158 11;
+    --warning-light: 120 53 15;
+    --error: 239 68 68;
+    --error-light: 127 29 29;
+    --info: 14 165 233;
+    --info-light: 12 74 110;
+
+    --wallet-card-bg: 30 41 59;
+    --wallet-card-border: 71 85 105;
+    --wallet-balance-text: 248 250 252;
+
+    --token-card-bg: 30 41 59;
+    --token-card-border: 71 85 105;
+
+    --border: 71 85 105;
+    --border-hover: 100 116 139;
+    --input: 71 85 105;
+    --card: 30 41 59;
+    --card-foreground: 248 250 252;
+    --popover: 30 41 59;
+    --popover-foreground: 248 250 252;
+    --muted: 51 65 85;
+    --muted-foreground: 148 163 184;
+
+    --sidebar-background: 30 41 59;
+    --sidebar-foreground: 248 250 252;
+    --sidebar-accent: 51 65 85;
+    --sidebar-accent-foreground: 248 250 252;
+    --sidebar-border: 71 85 105;
+  }
+}

@@ -3,48 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 255 255 255;
-    --foreground: 15 23 42;
-
-    --card: 255 255 255;
-    --card-foreground: 15 23 42;
-
-    --popover: 255 255 255;
-    --popover-foreground: 15 23 42;
-
-    --primary: 59 130 246;
-    --primary-foreground: 255 255 255;
-
-    --secondary: 148 163 184;
-    --secondary-foreground: 15 23 42;
-
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
-
-    --accent: 59 130 246;
-    --accent-foreground: 255 255 255;
-
-    --destructive: 248 113 113;
-    --destructive-foreground: 255 255 255;
-
-    --border: 226 232 240;
-    --input: 226 232 240;
-    --ring: 59 130 246;
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 255 255 255;
-    --sidebar-foreground: 15 23 42;
-    --sidebar-primary: 59 130 246;
-    --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 248 250 252;
-    --sidebar-accent-foreground: 15 23 42;
-    --sidebar-border: 226 232 240;
-    --sidebar-ring: 59 130 246;
-  }
-}
+/* Import design tokens */
+@import './styles/design-tokens.css';
 
 @layer base {
   * {
@@ -55,30 +15,89 @@
     @apply bg-gradient-to-br from-slate-50 via-white to-blue-50 text-foreground min-h-screen;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
+
+  .dark body {
+    @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900;
+  }
 }
 
 @layer components {
+  /* Wallet component tokens */
   .wallet-button {
-    @apply bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-medium;
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-medium;
   }
   
   .secondary-button {
-    @apply bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-medium;
+    @apply bg-secondary hover:bg-secondary/80 text-secondary-foreground shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-medium;
   }
   
   .balance-text {
-    @apply text-5xl font-bold text-slate-800 tracking-tight;
+    @apply text-5xl font-bold tracking-tight;
+    color: hsl(var(--wallet-balance-text));
   }
 
+  /* Token component tokens */
   .token-card {
-    @apply bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
+    background-color: hsl(var(--token-card-bg));
+    border-color: hsl(var(--token-card-border));
+    @apply border hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
   }
 
+  .token-card:hover {
+    border-color: hsl(var(--token-card-hover));
+  }
+
+  .token-positive {
+    color: hsl(var(--token-positive));
+  }
+
+  .token-negative {
+    color: hsl(var(--token-negative));
+  }
+
+  /* NFT component tokens */
   .nft-card {
-    @apply bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
+    background-color: hsl(var(--token-card-bg));
+    border-color: hsl(var(--token-card-border));
+    @apply border hover:shadow-lg transition-all duration-300 cursor-pointer rounded-xl;
   }
 
+  .nft-card:hover {
+    border-color: hsl(var(--token-card-hover));
+  }
+
+  /* Semantic status components */
+  .success-badge {
+    background-color: hsl(var(--success-light));
+    color: hsl(var(--success));
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .warning-badge {
+    background-color: hsl(var(--warning-light));
+    color: hsl(var(--warning));
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .error-badge {
+    background-color: hsl(var(--error-light));
+    color: hsl(var(--error));
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .info-badge {
+    background-color: hsl(var(--info-light));
+    color: hsl(var(--info));
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  /* Utility classes */
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-hover)));
+  }
+
+  .wallet-gradient {
+    background: linear-gradient(135deg, hsl(var(--wallet-gradient-from)), hsl(var(--wallet-gradient-to)));
   }
 }
