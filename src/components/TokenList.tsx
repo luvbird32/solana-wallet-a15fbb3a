@@ -73,6 +73,12 @@ const TokenList = () => {
     setShowImport(false);
   };
 
+  const handleTokenClick = (token: Token) => {
+    console.log('Token clicked:', token);
+    // Add your click handling logic here
+    // For example: navigate to token details, show token actions, etc.
+  };
+
   // Memoize the combined tokens list to avoid unnecessary recalculations
   const allTokens = useMemo(() => [
     ...defaultTokens,
@@ -139,7 +145,11 @@ const TokenList = () => {
       </div>
       
       {allTokens.map((token, index) => (
-        <Card key={`${token.symbol}-${index}`} className="token-card group p-8 hover:scale-[1.01] transition-all duration-300">
+        <Card 
+          key={`${token.symbol}-${index}`} 
+          className="token-card group p-8 hover:scale-[1.01] transition-all duration-300 cursor-pointer select-none"
+          onClick={() => handleTokenClick(token)}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:shadow-xl transition-all duration-300">
