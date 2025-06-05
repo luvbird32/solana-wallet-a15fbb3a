@@ -155,7 +155,7 @@ const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
  * @security Essential for preventing various attack vectors
  * @example
  * ```typescript
- * const limitCheck = checkRateLimit('wallet_creation', clientIP);
+ * const limitCheck = checkRateLimit('WALLET_CREATION', clientIP);
  * if (!limitCheck.allowed) {
  *   throw new Error('Rate limit exceeded');
  * }
@@ -168,13 +168,12 @@ export const checkRateLimit = (operation: keyof typeof SECURITY_CONFIG.RATE_LIMI
 } => {
   const config = SECURITY_CONFIG.RATE_LIMITS[operation];
   if (!config) {
-    console.warn(`Unknown rate limit operation: ${operation}`);
+    console.warn(`Unknown rate limit operation: ${String(operation)}`);
     return { allowed: true };
   }
 
-  const key = `${operation}:${clientId}`;
+  const key = `${String(operation)}:${clientId}`;
   const now = Date.now();
-  const windowStart = now - config.windowMs;
 
   // Get or create rate limit entry
   let entry = rateLimitStore.get(key);

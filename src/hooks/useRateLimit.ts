@@ -21,7 +21,7 @@ export const useRateLimit = () => {
       
       setRateLimitStatus(prev => ({
         ...prev,
-        [`${operation}-${clientId}`]: result
+        [`${String(operation)}-${clientId}`]: result
       }));
 
       return result;
@@ -35,7 +35,7 @@ export const useRateLimit = () => {
     operation: keyof typeof SECURITY_CONFIG.RATE_LIMITS,
     clientId: string = 'default'
   ): boolean => {
-    const key = `${operation}-${clientId}`;
+    const key = `${String(operation)}-${clientId}`;
     return rateLimitStatus[key]?.allowed === false;
   }, [rateLimitStatus]);
 
