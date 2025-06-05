@@ -1,0 +1,42 @@
+
+{
+  "name": "wallet-smart-contracts",
+  "version": "1.0.0",
+  "description": "Solana smart contracts for wallet application",
+  "main": "index.js",
+  "scripts": {
+    "build": "anchor build",
+    "test": "anchor test",
+    "deploy": "anchor deploy",
+    "deploy:devnet": "solana config set --url devnet && anchor deploy",
+    "deploy:mainnet": "solana config set --url mainnet-beta && anchor deploy",
+    "lint": "cargo clippy -- -D warnings",
+    "format": "cargo fmt"
+  },
+  "dependencies": {
+    "@project-serum/anchor": "^0.28.0",
+    "@solana/web3.js": "^1.78.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.0",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.0",
+    "mocha": "^9.0.3",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^4.3.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/solana-wallet.git"
+  },
+  "keywords": [
+    "solana",
+    "blockchain",
+    "smart-contracts",
+    "wallet",
+    "anchor"
+  ],
+  "author": "Your Organization",
+  "license": "MIT"
+}
