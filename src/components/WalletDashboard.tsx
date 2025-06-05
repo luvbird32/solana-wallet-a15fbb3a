@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,7 @@ import TransactionHistory from './TransactionHistory';
 import SendReceiveModal from './SendReceiveModal';
 import SwapInterface from './SwapInterface';
 import WalletManagement from './WalletManagement';
+import SmartContractInterface from './SmartContractInterface';
 
 const WalletDashboard = () => {
   const { connected } = useWallet();
@@ -18,6 +18,7 @@ const WalletDashboard = () => {
   const [showSendReceive, setShowSendReceive] = useState(false);
   const [showSwap, setShowSwap] = useState(false);
   const [showWalletManagement, setShowWalletManagement] = useState(false);
+  const [showSmartContracts, setShowSmartContracts] = useState(false);
   const [sendReceiveMode, setSendReceiveMode] = useState<'send' | 'receive'>('send');
 
   // Mock data - in real app this would come from connected wallet
@@ -45,6 +46,16 @@ const WalletDashboard = () => {
     );
   }
 
+  if (showSmartContracts) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto">
+          <SmartContractInterface onBack={() => setShowSmartContracts(false)} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
@@ -65,6 +76,14 @@ const WalletDashboard = () => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
+            <Button
+              onClick={() => setShowSmartContracts(true)}
+              variant="outline"
+              className="border-purple-200 text-purple-600 hover:bg-purple-50"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Smart Contracts
+            </Button>
             <Button
               onClick={() => setShowWalletManagement(true)}
               variant="outline"
@@ -150,7 +169,8 @@ const WalletDashboard = () => {
               {[
                 { id: 'tokens', label: 'Tokens' },
                 { id: 'nfts', label: 'NFTs' },
-                { id: 'history', label: 'History' }
+                { id: 'history', label: 'History' },
+                { id: 'contracts', label: 'Contracts' }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -171,6 +191,7 @@ const WalletDashboard = () => {
               {activeTab === 'tokens' && <TokenList />}
               {activeTab === 'nfts' && <NFTGallery />}
               {activeTab === 'history' && <TransactionHistory />}
+              {activeTab === 'contracts' && <SmartContractInterface onBack={() => setActiveTab('tokens')} />}
             </div>
           </>
         )}
