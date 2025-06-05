@@ -1,21 +1,16 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import TransactionDetailsModal from './TransactionDetailsModal';
-
-interface Transaction {
-  id: string;
-  type: 'send' | 'receive' | 'swap';
-  amount: number;
-  token: string;
-  toFrom: string;
-  timestamp: Date;
-  status: 'confirmed' | 'pending' | 'failed';
-}
+import { Transaction } from '@/types/transaction';
+import { useTransactionFormatting } from '@/hooks/useTransactionFormatting';
+import { SIZES } from '@/constants/ui';
 
 const TransactionHistory = () => {
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const { formatTime, getStatusColor, getTypeIcon, getTypeDescription } = useTransactionFormatting();
 
   // Mock transaction data - in real app this would come from Solana transaction history
   const transactions: Transaction[] = [
@@ -57,34 +52,12 @@ const TransactionHistory = () => {
     }
   ];
 
-  const formatTime = (date: Date) => {
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'text-green-600';
-      case 'pending': return 'text-yellow-600';
-      case 'failed': return 'text-red-600';
-      default: return 'text-slate-500';
+  const renderTypeIcon = (type: Transaction['type']) => {
+    const IconComponent = getTypeIcon(type);
+    if (IconComponent) {
+      return <IconComponent className={`${SIZES.ICON_SM} ${type === 'send' ? 'text-red-500' : 'text-green-500'}`} />;
     }
-  };
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'send': return <ArrowUp className="w-4 h-4 text-red-500" />;
-      case 'receive': return <ArrowDown className="w-4 h-4 text-green-500" />;
-      case 'swap': return <div className="w-4 h-4 bg-blue-500 rounded-full" />;
-      default: return null;
-    }
+    return <div className={`${SIZES.ICON_SM} bg-blue-500 rounded-full`} />;
   };
 
   const handleTransactionClick = (transaction: Transaction) => {
@@ -109,12 +82,12 @@ const TransactionHistory = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
-                  {getTypeIcon(tx.type)}
+                  {renderTypeIcon(tx.type)}
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900 capitalize text-lg">{tx.type}</h3>
                   <p className="text-slate-500 text-sm">
-                    {tx.type === 'swap' ? tx.toFrom : `${tx.type === 'send' ? 'To' : 'From'} ${tx.toFrom}`}
+                    {getTypeDescription(tx)}
                   </p>
                 </div>
               </div>
