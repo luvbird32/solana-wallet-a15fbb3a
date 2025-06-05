@@ -13,29 +13,29 @@ const WalletConnectionButton = () => {
 
   if (connected && publicKey) {
     return (
-      <div className="flex items-center gap-4">
-        <div className="bg-emerald-50 border-2 border-emerald-200 px-6 py-4 rounded-3xl shadow-lg backdrop-blur-sm">
-          <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3">
+        <div className="bg-emerald-50 border-2 border-emerald-200 px-4 py-2 rounded-2xl shadow-lg backdrop-blur-sm">
+          <div className="flex items-center gap-2">
             <div className="relative">
-              <div className="w-4 h-4 bg-emerald-500 rounded-full shadow-lg animate-pulse"></div>
-              <div className="absolute inset-0 w-4 h-4 bg-emerald-400 rounded-full animate-ping opacity-20"></div>
+              <div className="w-3 h-3 bg-emerald-500 rounded-full shadow-lg animate-pulse"></div>
+              <div className="absolute inset-0 w-3 h-3 bg-emerald-400 rounded-full animate-ping opacity-20"></div>
             </div>
             <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-emerald-600" />
-              <span className="text-emerald-700 font-bold text-lg">{walletName}</span>
+              <Shield className="w-4 h-4 text-emerald-600" />
+              <span className="text-emerald-700 font-bold text-sm">{walletName}</span>
             </div>
           </div>
-          <p className="text-emerald-600 text-sm font-mono mt-2 bg-white/50 px-3 py-1 rounded-lg">
+          <p className="text-emerald-600 text-xs font-mono mt-1 bg-white/50 px-2 py-1 rounded-lg">
             {formatAddress(publicKey)}
           </p>
         </div>
         <Button
           onClick={disconnect}
           variant="outline"
-          size="lg"
-          className="bg-red-50 border-2 border-red-200 hover:border-red-300 text-red-600 hover:bg-red-100 transition-all duration-300 font-bold px-6 py-6 rounded-2xl shadow-lg hover:shadow-xl"
+          size="default"
+          className="bg-red-50 border-2 border-red-200 hover:border-red-300 text-red-600 hover:bg-red-100 transition-all duration-300 font-bold px-4 py-2 rounded-2xl shadow-lg hover:shadow-xl"
         >
-          <Power className="w-5 h-5 mr-2" />
+          <Power className="w-4 h-4 mr-2" />
           Disconnect
         </Button>
       </div>
@@ -46,13 +46,13 @@ const WalletConnectionButton = () => {
     <Button
       onClick={connect}
       disabled={connecting}
-      size="lg"
-      className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 shadow-xl hover:shadow-2xl backdrop-blur-md font-bold rounded-2xl transition-all duration-300 transform hover:scale-[1.05] border-0"
+      size="default"
+      className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2 shadow-xl hover:shadow-2xl backdrop-blur-md font-bold rounded-2xl transition-all duration-300 transform hover:scale-[1.05] border-0"
     >
-      <Wallet className="w-6 h-6 mr-3" />
+      <Wallet className="w-4 h-4 mr-2" />
       {connecting ? (
         <>
-          <Zap className="w-5 h-5 mr-2 animate-pulse" />
+          <Zap className="w-4 h-4 mr-2 animate-pulse" />
           Connecting...
         </>
       ) : (

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Wallet, Settings, Sparkles } from 'lucide-react';
@@ -43,14 +42,14 @@ const WalletHeader = ({ onShowWalletManagement }: WalletHeaderProps) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <Button
           onClick={onShowWalletManagement}
           variant="outline"
-          size="lg"
-          className="bg-slate-50 border-2 border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-100 backdrop-blur-md shadow-lg hover:shadow-xl font-bold px-6 py-6 rounded-2xl transition-all duration-300"
+          size="default"
+          className="bg-slate-50 border-2 border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-100 backdrop-blur-md shadow-lg hover:shadow-xl font-bold px-4 py-2 rounded-2xl transition-all duration-300"
         >
-          <Settings className="w-6 h-6 mr-2" />
+          <Settings className="w-4 h-4 mr-2" />
           Wallet Management
         </Button>
         <WalletConnectionButton />
