@@ -5,7 +5,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { TokenInfo } from '@/types/token';
-import { searchTokenByAddress, searchTokenByName } from '@/services/tokenService';
+import { searchTokenByAddress, searchTokenByName } from '@/api/tokenApi';
 
 /**
  * Custom hook for searching tokens with caching via React Query

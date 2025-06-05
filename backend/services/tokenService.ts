@@ -1,11 +1,18 @@
 
 /**
- * @fileoverview Token search and metadata service with caching and rate limiting
- * @description Provides functions to search for tokens by address or name with in-memory caching and API rate limiting
+ * @fileoverview Backend token service with business logic and data management
+ * @description Provides server-side token search, caching, and rate limiting functionality
  */
 
-import { TokenInfo } from '@/types/token';
-import { checkRateLimit } from '../../backend/services/securityService';
+import { checkRateLimit } from './securityService';
+
+/** Token information interface */
+export interface TokenInfo {
+  address: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+}
 
 /** Mock token database for development */
 const MOCK_TOKENS: { [key: string]: TokenInfo } = {
@@ -39,7 +46,7 @@ const TOKENS_BY_NAME: { [key: string]: TokenInfo } = {
   'wsol': MOCK_TOKENS['So11111111111111111111111111111111111111112']
 };
 
-// In-memory cache for token data
+// Server-side cache for token data
 const tokenCache = new Map<string, { data: TokenInfo | null; timestamp: number }>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
@@ -69,9 +76,9 @@ const setCachedToken = (key: string, data: TokenInfo | null): void => {
 /**
  * Checks rate limit before performing token operations
  * @param {string} clientId - Client identifier for rate limiting
- * @returns {Promise<void>} Throws error if rate limited
+ * @returns {void} Throws error if rate limited
  */
-const checkTokenSearchRateLimit = async (clientId: string = 'default'): Promise<void> => {
+const checkTokenSearchRateLimit = (clientId: string = 'default'): void => {
   const rateCheck = checkRateLimit('TOKEN_SEARCH', clientId);
   
   if (!rateCheck.allowed) {
@@ -81,13 +88,14 @@ const checkTokenSearchRateLimit = async (clientId: string = 'default'): Promise<
 };
 
 /**
- * Searches for a token by its blockchain address
+ * Backend service to search for a token by its blockchain address
  * @param {string} address - The token's mint address
- * @returns {Promise<TokenInfo | null>} Token information or null if not found
+ * @param {string} clientId - Client identifier for rate limiting
+ * @returns {TokenInfo | null} Token information or null if not found
  */
-export const searchTokenByAddress = async (address: string): Promise<TokenInfo | null> => {
+export const searchTokenByAddress = (address: string, clientId: string = 'default'): TokenInfo | null => {
   // Check rate limit first
-  await checkTokenSearchRateLimit();
+  checkTokenSearchRateLimit(clientId);
 
   // Check cache first
   const cached = getCachedToken(`address:${address}`);
@@ -96,9 +104,6 @@ export const searchTokenByAddress = async (address: string): Promise<TokenInfo |
     return cached;
   }
 
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
   const token = MOCK_TOKENS[address];
   let result: TokenInfo | null;
   
@@ -122,13 +127,14 @@ export const searchTokenByAddress = async (address: string): Promise<TokenInfo |
 };
 
 /**
- * Searches for a token by its name or symbol
+ * Backend service to search for a token by its name or symbol
  * @param {string} name - The token name or symbol to search for
- * @returns {Promise<TokenInfo | null>} Token information or null if not found
+ * @param {string} clientId - Client identifier for rate limiting
+ * @returns {TokenInfo | null} Token information or null if not found
  */
-export const searchTokenByName = async (name: string): Promise<TokenInfo | null> => {
+export const searchTokenByName = (name: string, clientId: string = 'default'): TokenInfo | null => {
   // Check rate limit first
-  await checkTokenSearchRateLimit();
+  checkTokenSearchRateLimit(clientId);
 
   const cacheKey = `name:${name.toLowerCase()}`;
   
@@ -139,9 +145,6 @@ export const searchTokenByName = async (name: string): Promise<TokenInfo | null>
     return cached;
   }
 
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
   const result = TOKENS_BY_NAME[name.toLowerCase()] || null;
   
   // Cache the result
