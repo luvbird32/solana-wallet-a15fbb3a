@@ -1,7 +1,7 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ArrowUp, ArrowDown } from 'lucide-react';
+import TransactionDetailsModal from './TransactionDetailsModal';
 
 interface Transaction {
   id: string;
@@ -14,6 +14,9 @@ interface Transaction {
 }
 
 const TransactionHistory = () => {
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
   // Mock transaction data - in real app this would come from Solana transaction history
   const transactions: Transaction[] = [
     {
@@ -84,36 +87,58 @@ const TransactionHistory = () => {
     }
   };
 
+  const handleTransactionClick = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedTransaction(null);
+  };
+
   return (
-    <div className="space-y-4">
-      {transactions.map((tx) => (
-        <Card key={tx.id} className="p-6 hover:shadow-lg transition-all duration-200 cursor-pointer border border-slate-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
-                {getTypeIcon(tx.type)}
+    <>
+      <div className="space-y-4">
+        {transactions.map((tx) => (
+          <Card 
+            key={tx.id} 
+            className="p-6 hover:shadow-lg transition-all duration-200 cursor-pointer border border-slate-200 hover:border-slate-300"
+            onClick={() => handleTransactionClick(tx)}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
+                  {getTypeIcon(tx.type)}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 capitalize text-lg">{tx.type}</h3>
+                  <p className="text-slate-500 text-sm">
+                    {tx.type === 'swap' ? tx.toFrom : `${tx.type === 'send' ? 'To' : 'From'} ${tx.toFrom}`}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 capitalize text-lg">{tx.type}</h3>
-                <p className="text-slate-500 text-sm">
-                  {tx.type === 'swap' ? tx.toFrom : `${tx.type === 'send' ? 'To' : 'From'} ${tx.toFrom}`}
+              
+              <div className="text-right">
+                <p className="font-semibold text-slate-900 text-lg">
+                  {tx.type === 'send' ? '-' : '+'}{tx.amount} {tx.token}
+                </p>
+                <p className="text-slate-500 text-sm">{formatTime(tx.timestamp)}</p>
+                <p className={`text-sm font-medium capitalize ${getStatusColor(tx.status)}`}>
+                  {tx.status}
                 </p>
               </div>
             </div>
-            
-            <div className="text-right">
-              <p className="font-semibold text-slate-900 text-lg">
-                {tx.type === 'send' ? '-' : '+'}{tx.amount} {tx.token}
-              </p>
-              <p className="text-slate-500 text-sm">{formatTime(tx.timestamp)}</p>
-              <p className={`text-sm font-medium capitalize ${getStatusColor(tx.status)}`}>
-                {tx.status}
-              </p>
-            </div>
-          </div>
-        </Card>
-      ))}
-    </div>
+          </Card>
+        ))}
+      </div>
+
+      <TransactionDetailsModal
+        transaction={selectedTransaction}
+        isOpen={showModal}
+        onClose={handleCloseModal}
+      />
+    </>
   );
 };
 
