@@ -1,15 +1,29 @@
 
+/**
+ * @fileoverview Component for displaying token information with import functionality
+ */
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { TokenInfo } from '@/types/token';
 
+/**
+ * Props for the TokenInfoDisplay component
+ */
 interface TokenInfoDisplayProps {
+  /** Token information to display */
   tokenInfo: TokenInfo;
+  /** Callback function when import button is clicked */
   onImport: () => void;
 }
 
+/**
+ * Displays detailed token information in a card format with import capability
+ * @param {TokenInfoDisplayProps} props - Component props
+ * @returns {JSX.Element} TokenInfoDisplay component
+ */
 const TokenInfoDisplay = ({ tokenInfo, onImport }: TokenInfoDisplayProps) => {
   return (
     <Card className="border border-slate-200 bg-slate-50">

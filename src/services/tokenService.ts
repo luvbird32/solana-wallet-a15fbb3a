@@ -1,6 +1,12 @@
 
+/**
+ * @fileoverview Token search and metadata service with caching
+ * @description Provides functions to search for tokens by address or name with in-memory caching
+ */
+
 import { TokenInfo } from '@/types/token';
 
+/** Mock token database for development */
 const MOCK_TOKENS: { [key: string]: TokenInfo } = {
   'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v': {
     address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
@@ -22,6 +28,7 @@ const MOCK_TOKENS: { [key: string]: TokenInfo } = {
   }
 };
 
+/** Mapping of token names/symbols to token info for search functionality */
 const TOKENS_BY_NAME: { [key: string]: TokenInfo } = {
   'usd coin': MOCK_TOKENS['EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'],
   'usdc': MOCK_TOKENS['EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'],
@@ -35,6 +42,11 @@ const TOKENS_BY_NAME: { [key: string]: TokenInfo } = {
 const tokenCache = new Map<string, { data: TokenInfo | null; timestamp: number }>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
+/**
+ * Retrieves cached token data if still valid
+ * @param {string} key - The cache key to lookup
+ * @returns {TokenInfo | null} Cached token data or null if expired/missing
+ */
 const getCachedToken = (key: string): TokenInfo | null => {
   const cached = tokenCache.get(key);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
@@ -43,10 +55,21 @@ const getCachedToken = (key: string): TokenInfo | null => {
   return null;
 };
 
+/**
+ * Stores token data in cache with timestamp
+ * @param {string} key - The cache key to store under
+ * @param {TokenInfo | null} data - The token data to cache
+ * @returns {void}
+ */
 const setCachedToken = (key: string, data: TokenInfo | null): void => {
   tokenCache.set(key, { data, timestamp: Date.now() });
 };
 
+/**
+ * Searches for a token by its blockchain address
+ * @param {string} address - The token's mint address
+ * @returns {Promise<TokenInfo | null>} Token information or null if not found
+ */
 export const searchTokenByAddress = async (address: string): Promise<TokenInfo | null> => {
   // Check cache first
   const cached = getCachedToken(`address:${address}`);
@@ -80,6 +103,11 @@ export const searchTokenByAddress = async (address: string): Promise<TokenInfo |
   return result;
 };
 
+/**
+ * Searches for a token by its name or symbol
+ * @param {string} name - The token name or symbol to search for
+ * @returns {Promise<TokenInfo | null>} Token information or null if not found
+ */
 export const searchTokenByName = async (name: string): Promise<TokenInfo | null> => {
   const cacheKey = `name:${name.toLowerCase()}`;
   
@@ -102,7 +130,10 @@ export const searchTokenByName = async (name: string): Promise<TokenInfo | null>
   return result;
 };
 
-// Clear cache function for manual cache invalidation
+/**
+ * Clears all cached token data, forcing fresh lookups
+ * @returns {void}
+ */
 export const clearTokenCache = (): void => {
   tokenCache.clear();
   console.log('Token cache cleared');
