@@ -40,41 +40,41 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="pb-4">
+          <DialogTitle className="flex items-center space-x-3">
+            <div className="w-14 h-14 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg flex-shrink-0">
               {token.icon}
             </div>
-            <div className="text-left">
-              <h2 className="text-2xl font-bold text-foreground">{token.symbol}</h2>
-              <DialogDescription className="text-base mt-1">
+            <div className="text-left min-w-0">
+              <h2 className="text-xl font-bold text-foreground truncate">{token.symbol}</h2>
+              <DialogDescription className="text-sm mt-1 truncate">
                 {token.name}
               </DialogDescription>
             </div>
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Balance Card */}
           <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-            <CardContent className="p-6">
-              <div className="text-center space-y-3">
-                <p className="text-4xl font-bold text-foreground">
+            <CardContent className="p-5">
+              <div className="text-center space-y-2">
+                <p className="text-3xl font-bold text-foreground break-words">
                   {token.balance.toFixed(2)} {token.symbol}
                 </p>
-                <p className="text-2xl text-muted-foreground">
+                <p className="text-xl text-muted-foreground">
                   ${token.usdValue.toFixed(2)}
                 </p>
                 <div className={`flex items-center justify-center space-x-2 ${
                   token.change24h >= 0 ? 'text-success' : 'text-error'
                 }`}>
                   {token.change24h >= 0 ? (
-                    <TrendingUp className="w-5 h-5" />
+                    <TrendingUp className="w-4 h-4 flex-shrink-0" />
                   ) : (
-                    <TrendingDown className="w-5 h-5" />
+                    <TrendingDown className="w-4 h-4 flex-shrink-0" />
                   )}
-                  <span className="font-semibold text-lg">
+                  <span className="font-semibold">
                     {token.change24h >= 0 ? '+' : ''}{token.change24h.toFixed(2)}%
                   </span>
                 </div>
@@ -86,14 +86,14 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
           {token.address && (
             <Card className="bg-white/50 border border-white/50">
               <CardContent className="p-4">
-                <div className="space-y-3">
-                  <p className="font-semibold text-foreground">Token Address</p>
-                  <div className="flex items-center justify-between bg-white/70 border border-white/60 rounded-xl p-3">
-                    <p className="font-mono text-sm text-muted-foreground">
+                <div className="space-y-2">
+                  <p className="font-semibold text-foreground text-sm">Token Address</p>
+                  <div className="flex items-center space-x-2 bg-white/70 border border-white/60 rounded-xl p-3">
+                    <p className="font-mono text-xs text-muted-foreground flex-1 min-w-0 truncate">
                       {token.address.slice(0, 8)}...{token.address.slice(-8)}
                     </p>
-                    <Button variant="ghost" size="sm" onClick={copyAddress} className="h-8 w-8 p-0 hover:bg-white/80">
-                      <Copy className="w-4 h-4" />
+                    <Button variant="ghost" size="sm" onClick={copyAddress} className="h-7 w-7 p-0 hover:bg-white/80 flex-shrink-0">
+                      <Copy className="w-3 h-3" />
                     </Button>
                   </div>
                 </div>
@@ -102,30 +102,30 @@ const TokenDetailsModal = ({ token, isOpen, onClose, onAction }: TokenDetailsMod
           )}
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 pt-2">
             <Button 
               variant="outline" 
-              className="flex flex-col items-center space-y-2 h-20 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 transition-all duration-200"
+              className="flex flex-col items-center space-y-1 h-16 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 transition-all duration-200 text-xs"
               onClick={() => onAction('send', token)}
             >
-              <Send className="w-5 h-5" />
-              <span className="text-sm font-medium">Send</span>
+              <Send className="w-4 h-4" />
+              <span className="font-medium">Send</span>
             </Button>
             <Button 
               variant="outline" 
-              className="flex flex-col items-center space-y-2 h-20 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 transition-all duration-200"
+              className="flex flex-col items-center space-y-1 h-16 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 transition-all duration-200 text-xs"
               onClick={() => onAction('receive', token)}
             >
-              <ArrowDownToLine className="w-5 h-5" />
-              <span className="text-sm font-medium">Receive</span>
+              <ArrowDownToLine className="w-4 h-4" />
+              <span className="font-medium">Receive</span>
             </Button>
             <Button 
               variant="outline" 
-              className="flex flex-col items-center space-y-2 h-20 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 transition-all duration-200"
+              className="flex flex-col items-center space-y-1 h-16 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 transition-all duration-200 text-xs"
               onClick={() => onAction('swap', token)}
             >
-              <ArrowUpDown className="w-5 h-5" />
-              <span className="text-sm font-medium">Swap</span>
+              <ArrowUpDown className="w-4 h-4" />
+              <span className="font-medium">Swap</span>
             </Button>
           </div>
         </div>

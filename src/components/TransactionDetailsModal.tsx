@@ -71,10 +71,10 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'send': return <ArrowUp className="w-6 h-6 text-error" />;
-      case 'receive': return <ArrowDown className="w-6 h-6 text-success" />;
-      case 'swap': return <div className="w-6 h-6 bg-info rounded-full flex items-center justify-center">
-        <div className="w-3 h-3 bg-white rounded-full" />
+      case 'send': return <ArrowUp className="w-5 h-5 text-error" />;
+      case 'receive': return <ArrowDown className="w-5 h-5 text-success" />;
+      case 'swap': return <div className="w-5 h-5 bg-info rounded-full flex items-center justify-center">
+        <div className="w-2 h-2 bg-white rounded-full" />
       </div>;
       default: return null;
     }
@@ -86,29 +86,29 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="pb-4">
+          <DialogTitle className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center flex-shrink-0">
               {getTypeIcon(transaction.type)}
             </div>
-            <div className="text-left">
-              <span className="capitalize text-xl font-bold">{transaction.type} Transaction</span>
-              <DialogDescription className="mt-1">
+            <div className="text-left min-w-0">
+              <span className="capitalize text-lg font-bold block truncate">{transaction.type} Transaction</span>
+              <DialogDescription className="mt-1 text-sm">
                 Transaction details and information
               </DialogDescription>
             </div>
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Amount and Status */}
-          <div className="text-center space-y-4">
-            <div className="space-y-2">
-              <p className="text-3xl font-bold text-foreground">
+          <div className="text-center space-y-3">
+            <div className="space-y-1">
+              <p className="text-2xl font-bold text-foreground break-words">
                 {transaction.type === 'send' ? '-' : '+'}{transaction.amount} {transaction.token}
               </p>
-              <p className="text-base text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 {transaction.timestamp.toLocaleString()}
               </p>
             </div>
@@ -119,44 +119,44 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
           </div>
 
           {/* Transaction Details */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="text-sm font-semibold text-foreground mb-2 block">
+              <label className="text-xs font-semibold text-foreground mb-2 block">
                 {transaction.type === 'swap' ? 'Platform' : transaction.type === 'send' ? 'To' : 'From'}
               </label>
               <div className="flex items-center justify-between p-3 bg-white/50 border border-white/50 rounded-xl">
-                <span className="font-mono text-sm text-foreground">{transaction.toFrom}</span>
+                <span className="font-mono text-sm text-foreground truncate flex-1 mr-2">{transaction.toFrom}</span>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => copyToClipboard(transaction.toFrom, 'Address')}
-                  className="h-8 w-8 p-0 hover:bg-white/80"
+                  className="h-7 w-7 p-0 hover:bg-white/80 flex-shrink-0"
                 >
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-3 h-3" />
                 </Button>
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-foreground mb-2 block">Transaction Hash</label>
+              <label className="text-xs font-semibold text-foreground mb-2 block">Transaction Hash</label>
               <div className="flex items-center justify-between p-3 bg-white/50 border border-white/50 rounded-xl">
-                <span className="font-mono text-sm truncate text-foreground flex-1 mr-2">{mockTransactionHash}</span>
-                <div className="flex gap-1">
+                <span className="font-mono text-xs truncate text-foreground flex-1 mr-2">{mockTransactionHash}</span>
+                <div className="flex gap-1 flex-shrink-0">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => copyToClipboard(mockTransactionHash, 'Transaction hash')}
-                    className="h-8 w-8 p-0 hover:bg-white/80"
+                    className="h-7 w-7 p-0 hover:bg-white/80"
                   >
-                    <Copy className="w-4 h-4" />
+                    <Copy className="w-3 h-3" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => window.open(`https://explorer.solana.com/tx/${mockTransactionHash}`, '_blank')}
-                    className="h-8 w-8 p-0 hover:bg-white/80"
+                    className="h-7 w-7 p-0 hover:bg-white/80"
                   >
-                    <ExternalLink className="w-4 h-4" />
+                    <ExternalLink className="w-3 h-3" />
                   </Button>
                 </div>
               </div>
@@ -164,16 +164,16 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
 
             {transaction.status === 'confirmed' && (
               <div>
-                <label className="text-sm font-semibold text-foreground mb-2 block">Signature</label>
+                <label className="text-xs font-semibold text-foreground mb-2 block">Signature</label>
                 <div className="flex items-center justify-between p-3 bg-white/50 border border-white/50 rounded-xl">
-                  <span className="font-mono text-sm truncate text-foreground flex-1 mr-2">{mockSignature}</span>
+                  <span className="font-mono text-xs truncate text-foreground flex-1 mr-2">{mockSignature}</span>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => copyToClipboard(mockSignature, 'Signature')}
-                    className="h-8 w-8 p-0 hover:bg-white/80"
+                    className="h-7 w-7 p-0 hover:bg-white/80 flex-shrink-0"
                   >
-                    <Copy className="w-4 h-4" />
+                    <Copy className="w-3 h-3" />
                   </Button>
                 </div>
               </div>
@@ -184,7 +184,7 @@ const TransactionDetailsModal = ({ transaction, isOpen, onClose }: TransactionDe
           <div className="pt-2">
             <Button
               variant="outline"
-              className="w-full h-11 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70"
+              className="w-full h-10 bg-white/50 border border-white/50 hover:border-primary/50 hover:bg-white/70 text-sm"
               onClick={() => window.open(`https://explorer.solana.com/tx/${mockTransactionHash}`, '_blank')}
             >
               <ExternalLink className="w-4 h-4 mr-2" />
