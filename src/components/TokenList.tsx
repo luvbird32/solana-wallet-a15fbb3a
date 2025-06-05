@@ -41,25 +41,25 @@ const TokenList = () => {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {tokens.map((token, index) => (
-        <Card key={token.symbol} className="glass-card p-4 hover:bg-white/15 transition-all duration-200 cursor-pointer">
+        <Card key={token.symbol} className="token-card p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-crypto-gradient rounded-full flex items-center justify-center text-white font-bold text-lg">
+            <div className="flex items-center space-x-5">
+              <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
                 {token.icon}
               </div>
               <div>
-                <h3 className="font-semibold text-white text-lg">{token.symbol}</h3>
-                <p className="text-gray-400 text-sm">{token.name}</p>
+                <h3 className="font-bold text-white text-xl">{token.symbol}</h3>
+                <p className="text-gray-300 text-sm font-medium">{token.name}</p>
               </div>
             </div>
             
             <div className="text-right">
-              <p className="font-semibold text-white text-lg">{token.balance.toFixed(2)}</p>
-              <p className="text-gray-400 text-sm">${token.usdValue.toFixed(2)}</p>
-              <p className={`text-sm font-medium ${
-                token.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'
+              <p className="font-bold text-white text-xl">{token.balance.toFixed(2)}</p>
+              <p className="text-gray-300 text-sm font-medium">${token.usdValue.toFixed(2)}</p>
+              <p className={`text-sm font-bold mt-1 ${
+                token.change24h >= 0 ? 'text-green-400' : 'text-red-400'
               }`}>
                 {token.change24h >= 0 ? '+' : ''}{token.change24h.toFixed(2)}%
               </p>

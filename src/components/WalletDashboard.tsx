@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Wallet, ArrowUp, ArrowDown } from 'lucide-react';
+import { Wallet, ArrowUp, ArrowDown, Repeat } from 'lucide-react';
 import TokenList from './TokenList';
 import NFTGallery from './NFTGallery';
 import TransactionHistory from './TransactionHistory';
@@ -30,55 +30,56 @@ const WalletDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-crypto-dark p-4 space-y-6">
+    <div className="min-h-screen p-6 space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-crypto-gradient rounded-full flex items-center justify-center">
-            <Wallet className="w-5 h-5 text-white" />
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center animate-glow">
+            <Wallet className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Solana Wallet</h1>
-            <p className="text-gray-400 text-sm">Mainnet-beta</p>
+            <h1 className="text-3xl font-bold text-white">Solana Wallet</h1>
+            <p className="text-purple-300 text-sm font-medium">Mainnet-beta</p>
           </div>
         </div>
       </div>
 
       {/* Balance Card */}
-      <Card className="glass-card p-6 animate-fade-in">
-        <div className="text-center space-y-2">
-          <p className="text-gray-400 text-sm uppercase tracking-wide">Total Balance</p>
-          <div className="balance-text">{walletBalance.toFixed(2)} SOL</div>
-          <p className="text-xl text-gray-300">${usdValue.toFixed(2)} USD</p>
+      <Card className="glass-card p-8 animate-fade-in border-purple-500/20">
+        <div className="text-center space-y-4">
+          <p className="text-gray-300 text-sm uppercase tracking-wider font-medium">Total Balance</p>
+          <div className="balance-text animate-float">{walletBalance.toFixed(2)} SOL</div>
+          <p className="text-2xl text-gray-200 font-semibold">${usdValue.toFixed(2)} USD</p>
         </div>
         
         {/* Action Buttons */}
-        <div className="flex space-x-4 mt-6">
+        <div className="grid grid-cols-3 gap-4 mt-8">
           <Button
             onClick={handleSendClick}
-            className="flex-1 crypto-button text-white font-semibold py-3 rounded-xl"
+            className="wallet-button text-white font-semibold py-4 rounded-xl flex items-center justify-center space-x-2"
           >
-            <ArrowUp className="w-4 h-4 mr-2" />
-            Send
+            <ArrowUp className="w-5 h-5" />
+            <span>Send</span>
           </Button>
           <Button
             onClick={handleReceiveClick}
-            className="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-3 rounded-xl transition-all duration-200"
+            className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-2"
           >
-            <ArrowDown className="w-4 h-4 mr-2" />
-            Receive
+            <ArrowDown className="w-5 h-5" />
+            <span>Receive</span>
           </Button>
           <Button
             onClick={() => setShowSwap(true)}
-            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition-all duration-200"
+            className="secondary-button text-white font-semibold py-4 rounded-xl flex items-center justify-center space-x-2"
           >
-            Swap
+            <Repeat className="w-5 h-5" />
+            <span>Swap</span>
           </Button>
         </div>
       </Card>
 
       {/* Tab Navigation */}
-      <div className="flex space-x-1 bg-white/5 p-1 rounded-xl">
+      <div className="flex space-x-2 bg-white/5 p-2 rounded-2xl backdrop-blur-lg border border-white/10">
         {[
           { id: 'tokens', label: 'Tokens' },
           { id: 'nfts', label: 'NFTs' },
@@ -87,10 +88,10 @@ const WalletDashboard = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
+            className={`flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
               activeTab === tab.id
-                ? 'bg-crypto-gradient text-white shadow-lg'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25'
+                : 'text-gray-300 hover:text-white hover:bg-white/10'
             }`}
           >
             {tab.label}
