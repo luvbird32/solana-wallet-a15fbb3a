@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Testing utilities and custom render functions
  * @description Provides custom render function with all necessary providers
@@ -12,8 +11,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { WalletStateProvider } from '@/contexts/WalletStateContext';
 import { vi } from 'vitest';
 
-// Import screen separately to ensure it's available
-import * as RTL from '@testing-library/react';
+// Import screen and fireEvent from testing library
+import { screen, fireEvent } from '@testing-library/react';
 
 /**
  * Custom render options extending React Testing Library's RenderOptions
@@ -128,30 +127,6 @@ export const createMockSolanaAPI = (overrides: Partial<any> = {}) => ({
   ...overrides,
 });
 
-// Create screen object with all queries
-export const screen = RTL.screen;
-
-// Create fireEvent object
-export const fireEvent = {
-  click: (element: Element) => {
-    element.dispatchEvent(new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    }));
-  },
-  change: (element: Element, options: { target: { value: any } }) => {
-    const { value } = options.target;
-    if (element instanceof HTMLInputElement) {
-      element.value = value;
-      element.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-  },
-  submit: (element: Element) => {
-    element.dispatchEvent(new Event('submit', { bubbles: true }));
-  },
-};
-
 // Re-export everything from testing library for convenience
 export * from '@testing-library/react';
-export { customRender as render };
+export { customRender as render, screen, fireEvent };
